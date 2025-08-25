@@ -94,26 +94,42 @@
       font-weight:600;
     }
 
-
-
-    .legend-col{
-      text-align:center;
-      padding:10px 6px 0;
+    
+    .legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
+      margin: 6px 0 12px;
+      align-items: center;
     }
-    .legend-img{
-      display:block;
-      margin:0 auto 6px;
-      width:56px;
-      height:56px;
-      object-fit:contain;
+    
+    .legend-col.left {
+      text-align: left;
+    }
+    
+    .legend-col.right {
+      text-align: right;
+    }
+    
+    .legend-img {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 8px 0 0;  /* space between image and text */
+      width: 64px;        /* or 128px if you want bigger */
+      height: 64px;
+      object-fit: contain;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
     }
-    .legend-title{
-      font-size:.95rem;
-      font-weight:600;
-      opacity:.95;
+    
+    .legend-title {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: .95rem;
+      font-weight: 600;
+      opacity: .95;
     }
-    .legend-col.left .legend-title{ color:var(--left-fg); }
+
+
 
     .rows{
       display:grid;
