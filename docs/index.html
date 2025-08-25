@@ -99,14 +99,14 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       margin: 6px 0 12px;
-      align-items: center;
+      align-items: start; /* prevents vertical squeezing */
     }
     
     .legend-col {
       display: flex;
-      flex-direction: column;   /* stack vertically */
-      align-items: center;      /* center align text under image */
-      text-align: center;       /* center text under the icon */
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
     
     .legend-col.right {
@@ -122,12 +122,13 @@
 
     
     .legend-img {
-      width: 321px;
-      height: 107px;
-      object-fit: contain;
+      max-width: 220px;    /* control max size, scales with column */
+      width: 100%;         /* let it expand inside the cell */
+      height: auto;        /* keep aspect ratio */
       filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
-      margin: 0 8px;
-    }
+      margin-bottom: 8px;  /* space between image and title */
+}
+
     
     .legend-title {
       font-size: .95rem;
