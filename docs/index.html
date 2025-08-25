@@ -104,17 +104,22 @@
     
     .legend-col {
       display: flex;
-      align-items: center;
+      flex-direction: column;   /* stack vertically */
+      align-items: center;      /* center align text under image */
+      text-align: center;       /* center text under the icon */
     }
+    
+    .legend-col.right {
+      justify-content: flex-end;  /* keep layout aligned but still stacked */
+      flex-direction: column;     /* override old row-reverse */
+    }
+
     
     .legend-col.left {
       justify-content: flex-start;
     }
     
-    .legend-col.right {
-      justify-content: flex-end;
-      flex-direction: row-reverse; /* flip order: text then icon */
-    }
+
     
     .legend-img {
       width: 64px;
@@ -292,12 +297,12 @@ C# 14        2025 (.NET 10)  Extension members, null-conditional assignment, fil
   <div class="container">
     <div class="legend">
       <div class="legend-col left">
-        <img src="Language.Evolution.CSharp.Left.png" id="leftLegendImg" class="legend-img" alt="Left column icon" />
+        <img src="Langauge.Evolution.CSharp.Left.json.Evolution.CSharp.Left.png" id="leftLegendImg" class="legend-img" alt="Left column icon" />
         <div class="legend-title">LEFT: High-level history &amp; descriptions (dark)</div>
       </div>
       
       <div class="legend-col right">
-        <img src="Language.Evolution.CSharp.Right.png" id="rightLegendImg" class="legend-img" alt="Right column icon" />
+        <img src="Langauge.Evolution.CSharp.Left.json.Evolution.CSharp.Right.png" id="rightLegendImg" class="legend-img" alt="Right column icon" />
         <div class="legend-title">RIGHT: Themes, .NET version &amp; feature bullets</div>
       </div>
     </div>
