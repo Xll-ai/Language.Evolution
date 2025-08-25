@@ -459,6 +459,22 @@ Write in a professional but accessible style for senior developers. Include head
           <span class="version-chip">C# ${lv.version}</span>
           ${lv.year ? `<span class="pill">${lv.year}</span>` : ''}
         </div>`;
+    // Support new "article" property (paragraph text)
+    if(lv.article){
+      cellL.innerHTML = `
+        <div class="badge">
+          <span class="version-chip">${lv.version}</span>
+          ${lv.year ? `<span class="pill">${lv.year}</span>` : ''}
+        </div>
+        <div class="muted">${lv.article}</div>
+      `;
+    } else {
+      let leftHead = `
+        <div class="badge">
+          <span class="version-chip">${lv.version}</span>
+          ${lv.year ? `<span class="pill">${lv.year}</span>` : ''}
+        </div>
+      `;
       if(lv.description){ leftHead += `<div class="title">${lv.description}</div>`; }
       cellL.innerHTML = leftHead;
       if(Array.isArray(lv.features) && lv.features.length){
