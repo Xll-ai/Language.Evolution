@@ -9,58 +9,48 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --gap: 16px;
-      --radius: 16px;
+      --gap:16px;
+      --radius:16px;
 
-      /* Light theme (right column + page bg) */
-      --bg-light:#fff;
-      --fg-light:#000;
+      /* Right/light */
+      --bg-light:#ffffff;
+      --fg-light:#000000;
       --panel-light:#f9f9f9;
-      --border-light:#ddd;
+      --border-light:#dddddd;
 
-      /* Global dark (for OS-level dark on body only) */
+      /* OS dark (for general prefers-color-scheme usage) */
       --bg-dark:#000;
       --fg-dark:#fff;
       --panel-dark:rgba(255,255,255,.06);
       --border-dark:rgba(255,255,255,.2);
 
-      /* NEW: Solid dark just for LEFT column so it’s dark even on a light page */
-      --left-panel:#0f131a;   /* card background */
-      --left-border:#2a3342;  /* card border */
-      --left-fg:#e8edf5;      /* text on left */
-      --left-muted:#c6d0df;   /* muted text on left */
+      /* Left column solid dark */
+      --left-page:#0b0f16;     /* big column background */
+      --left-panel:#111827;    /* card background */
+      --left-border:#243142;   /* card border */
+      --left-fg:#e8edf5;       /* text on left */
+      --left-muted:#c6d0df;
     }
-    *{box-sizing:border-box}
+    *{ box-sizing:border-box }
+
     body{
       margin:0;
       font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:var(--bg-light);
       color:var(--fg-light);
+      /* whole document scrolls naturally */
     }
     @media (prefers-color-scheme: dark){
       body{ background:var(--bg-dark); color:var(--fg-dark); }
     }
 
-    /* Top prompt spans full width (sticky) */
-    .prompt-wrapper{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter:saturate(1.2) blur(6px);
-      background:linear-gradient(180deg, rgba(0,0,0,0.06), transparent);
-    }
-    @media (prefers-color-scheme: dark){
-      .prompt-wrapper{ background:linear-gradient(180deg, rgba(255,255,255,0.06), transparent); }
-    }
+    /* PROMPT (full width) — scrolls with page (NOT sticky) */
     .prompt{
       max-width:1200px;
       margin:0 auto;
-      padding:20px;
+      padding:20px 20px 8px;
     }
-    .prompt h1{
-      margin:.25rem 0 0;
-      font-size:1.4rem;
-      font-weight:600;
-      letter-spacing:.2px;
-    }
+    .prompt .badge{ font-weight:600; }
     .prompt .box{
       margin-top:.75rem;
       border-radius:var(--radius);
@@ -78,44 +68,42 @@
       }
     }
 
-    /* Quick Reference Table inside prompt */
-    .qrt{
-      width:100%;
-      border-collapse:separate;
-      border-spacing:0;
-      overflow:hidden;
-      border-radius:12px;
-      margin-top:12px;
-      border:1px solid var(--border-light);
-    }
-    .qrt th, .qrt td{
-      padding:10px 12px;
-      vertical-align:top;
-      text-align:left;
-      border-bottom:1px solid var(--border-light);
-    }
-    .qrt th{ font-weight:600; }
-    .qrt tr:last-child td{ border-bottom:none; }
-    @media (prefers-color-scheme: dark){
-      .qrt{ border-color:var(--border-dark); }
-      .qrt th, .qrt td{ border-bottom:1px solid var(--border-dark); }
-    }
-
-    /* Two-column grid of aligned rows */
+    /* Two-column area — give the WHOLE LEFT SIDE a dark page background using a gradient */
     .container{
       max-width:1200px;
       margin:0 auto;
-      padding:16px;
+      padding:16px 16px 0;
+      background:
+        linear-gradient(90deg, var(--left-page) 0 50%, transparent 50% 100%);
+      border-radius:16px;
     }
+
     .legend{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns:1fr 1fr;
       gap:var(--gap);
-      margin:8px 0 6px;
-      font-size:.9rem;
-      opacity:.9;
+      margin:6px 0 12px;
+      align-items:end;
     }
-    .legend > div{ text-align:center; }
+    .legend-col{
+      text-align:center;
+      padding:10px 6px 0;
+    }
+    .legend-img{
+      display:block;
+      margin:0 auto 6px;
+      width:56px;
+      height:56px;
+      object-fit:contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
+    }
+    .legend-title{
+      font-size:.95rem;
+      font-weight:600;
+      opacity:.95;
+    }
+    .legend-col.left .legend-title{ color:var(--left-fg); }
+
     .rows{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -132,41 +120,32 @@
       color:inherit;
     }
     @media (prefers-color-scheme: dark){
-      .cell{
-        border-color:var(--border-dark);
-        background:var(--panel-dark);
-      }
+      .cell{ border-color:var(--border-dark); background:var(--panel-dark); }
     }
 
-    /* >>> LEFT column forced dark, regardless of OS theme <<< */
+    /* Force dark cards on left column */
     .left-dark{
       background:var(--left-panel) !important;
       border-color:var(--left-border) !important;
       color:var(--left-fg) !important;
     }
     .left-dark .pill,
-    .left-dark .version-chip{
-      border-color:var(--left-border) !important;
-    }
+    .left-dark .version-chip{ border-color:var(--left-border) !important; }
     .left-dark .muted{ color:var(--left-muted); opacity:1; }
-    .left-dark a{ color:#fff; }
 
-    /* Also apply left-dark automatically to odd cells (left column) as a safety net */
+    /* As a fallback, make all odd cells (left column) dark even if class missing */
     .rows > .cell:nth-child(odd){
       background:var(--left-panel);
       border-color:var(--left-border);
       color:var(--left-fg);
     }
     .rows > .cell:nth-child(odd) .pill,
-    .rows > .cell:nth-child(odd) .version-chip{
-      border-color:var(--left-border);
-    }
+    .rows > .cell:nth-child(odd) .version-chip{ border-color:var(--left-border); }
     .rows > .cell:nth-child(odd) .muted{ color:var(--left-muted); opacity:1; }
 
     .badge{
       display:inline-flex; gap:8px; align-items:center;
-      font-weight:600; font-size:.95rem;
-      margin-bottom:.35rem;
+      font-weight:600; font-size:.95rem; margin-bottom:.35rem;
     }
     .pill{
       display:inline-block; font-size:.78rem; padding:2px 8px; border-radius:999px;
@@ -178,9 +157,13 @@
     .title{ font-weight:600; margin:.1rem 0 .4rem; font-size:1.05rem; }
     ul{ margin:.4rem 0 .2rem 1.05rem; }
     .muted{ opacity:.9; font-size:.92rem; }
-    .foot{ text-align:center; font-size:.85rem; opacity:.7; margin:28px 0 18px; }
 
-    /* Version chips */
+    .foot{
+      text-align:center; font-size:.85rem; opacity:.7; margin:24px 0 0;
+      padding-bottom:6px;
+      color:var(--left-fg);
+    }
+
     .version-chip{
       font-size:.75rem; letter-spacing:.2px;
       padding:2px 8px; border-radius:999px; border:1px dashed var(--border-light);
@@ -190,66 +173,142 @@
       .version-chip{ border-color:var(--border-dark); }
     }
 
+    /* References section (before final table) */
+    .refs{
+      max-width:1200px; margin:18px auto 0; padding:0 16px;
+    }
+    .refs h2{ margin:8px 0 8px; font-size:1.15rem; }
+    .refs-grid{
+      display:grid; grid-template-columns:1fr 1fr; gap:var(--gap);
+    }
+    .ref-col{
+      border-radius:var(--radius);
+      border:1px solid var(--border-light);
+      background:var(--panel-light);
+      padding:14px 16px;
+    }
+    .ref-col.left{
+      background:var(--left-panel);
+      border-color:var(--left-border);
+      color:var(--left-fg);
+    }
+    .ref-cat{ font-weight:600; margin:.25rem 0 .3rem; }
+    .refs ul{ margin:.2rem 0 .8rem 1.05rem; }
+    .refs a{ text-decoration:none; }
+    .ref-col.left a{ color:#cfe2ff; }
+    .ref-col.right a{ color:#0645ad; }
+
+    /* Quick Reference Table at the very END (full width) */
+    .qrt-wrap{
+      max-width:1200px; margin:16px auto 24px; padding:0 16px;
+    }
+    .qrt{
+      width:100%;
+      border-collapse:separate; border-spacing:0;
+      overflow:hidden; border-radius:12px;
+      border:1px solid var(--border-light);
+      background:var(--panel-light);
+    }
+    .qrt th,.qrt td{
+      padding:10px 12px; vertical-align:top; text-align:left;
+      border-bottom:1px solid var(--border-light);
+    }
+    .qrt th{ font-weight:600; }
+    .qrt tr:last-child td{ border-bottom:none; }
+    @media (prefers-color-scheme: dark){
+      .qrt{ border-color:var(--border-dark); background:var(--panel-dark); }
+      .qrt th,.qrt td{ border-bottom:1px solid var(--border-dark); }
+    }
+
     /* Responsive */
-    @media (max-width: 820px){
-      .legend{ grid-template-columns:1fr; text-align:left; }
+    @media (max-width:820px){
+      .container{ background:none; } /* when stacked, no half-page split */
+      .legend{ grid-template-columns:1fr; }
       .rows{ grid-template-columns:1fr; }
+      .refs-grid{ grid-template-columns:1fr; }
+      .foot{ color:inherit; }
     }
   </style>
 </head>
 <body>
 
-  <!-- PROMPT (Full width) -->
-  <div class="prompt-wrapper">
-    <div class="prompt">
-      <div class="badge">PROMPT</div>
-      <div class="box" id="promptBox">
+  <!-- PROMPT (scrolls with page) -->
+  <div class="prompt">
+    <div class="badge">PROMPT</div>
+    <div class="box" id="promptBox">
 starting with this exact reference guide
 
 Can you list all the upgrades in the C# language C#1 to C#14
 
 🚀 Quick Reference Table
-Version	Year & .NET	Notable Features
-C# 1.0 – 3.0	2002–2007	Language basics, generics, LINQ, lambda, extension methods
-C# 4.0 – 6.0	2010–2015	Dynamic, async/await, string interpolation, nameof, richer expressions
-C# 7.x – 9.0	2017–2020	Pattern matching, tuples, top-level statements, records
-C# 10 – 11	2021–2022	File-scoped namespaces, record structs, generic math, raw strings
-C# 12	2023 (.NET 8)	Primary constructors, collection expressions, inline arrays
-C# 13	2024 (.NET 9)	params collections, new Lock type, partial props/indexers
-C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based apps
-      </div>
-
-      <!-- Quick Reference Table (auto-filled from JSON if available) -->
-      <table class="qrt" id="qrt" aria-label="Quick Reference Table">
-        <thead>
-          <tr>
-            <th>Version</th>
-            <th>Year &amp; .NET</th>
-            <th>Notable Features</th>
-          </tr>
-        </thead>
-        <tbody><!-- filled dynamically --></tbody>
-      </table>
+Version  Year & .NET  Notable Features
+C# 1.0 – 3.0  2002–2007  Language basics, generics, LINQ, lambda, extension methods
+C# 4.0 – 6.0  2010–2015  Dynamic, async/await, string interpolation, nameof, richer expressions
+C# 7.x – 9.0  2017–2020  Pattern matching, tuples, top-level statements, records
+C# 10 – 11   2021–2022  File-scoped namespaces, record structs, generic math, raw strings
+C# 12        2023 (.NET 8)  Primary constructors, collection expressions, inline arrays
+C# 13        2024 (.NET 9)  params collections, new Lock type, partial props/indexers
+C# 14        2025 (.NET 10)  Extension members, null-conditional assignment, file-based apps
     </div>
   </div>
 
-  <!-- Two-column grid -->
+  <!-- Two-column area (whole left side has dark page background) -->
   <div class="container">
     <div class="legend">
-      <div>LEFT: High-level history & descriptions (dark)</div>
-      <div>RIGHT: Themes, .NET version & feature bullets (light)</div>
-    </div>
-    <div class="rows" id="rows">
-      <!-- paired cells generated here -->
+      <div class="legend-col left">
+        <img id="leftLegendImg" class="legend-img" alt="Left column icon" />
+        <div class="legend-title">LEFT: High-level history &amp; descriptions (dark)</div>
+      </div>
+      <div class="legend-col right">
+        <img id="rightLegendImg" class="legend-img" alt="Right column icon" />
+        <div class="legend-title">RIGHT: Themes, .NET version &amp; feature bullets</div>
+      </div>
     </div>
 
-    <div class="foot" id="footnote">
-      Loading C# version data…
+    <div class="rows" id="rows"><!-- paired cells inserted here --></div>
+
+    <div class="foot" id="footnote">Loading C# version data…</div>
+  </div>
+
+  <!-- References (from JSON) -->
+  <section class="refs" id="refsSection" hidden>
+    <h2>References</h2>
+    <div class="refs-grid">
+      <div class="ref-col left">
+        <div class="ref-cat">Left JSON</div>
+        <div id="refsLeft"></div>
+      </div>
+      <div class="ref-col right">
+        <div class="ref-cat">Right JSON</div>
+        <div id="refsRight"></div>
+      </div>
     </div>
+  </section>
+
+  <!-- Quick Reference Table moved to the VERY END -->
+  <div class="qrt-wrap">
+    <table class="qrt" id="qrt" aria-label="Quick Reference Table">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Year &amp; .NET</th>
+          <th>Notable Features</th>
+        </tr>
+      </thead>
+      <tbody><!-- filled dynamically --></tbody>
+    </table>
   </div>
 
 <script>
 (async function(){
+  // Tiny inline SVGs so images always show; replace srcs below if you have your own PNG/SVG files.
+  const leftIconData = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="%23111827"/><stop offset="1" stop-color="%230b0f16"/></linearGradient></defs><rect width="128" height="128" rx="16" fill="url(%23g)"/><path d="M36 36h56v56H36z" fill="%23243142" rx="8"/><text x="64" y="74" font-size="42" fill="%23e8edf5" text-anchor="middle" font-family="Poppins,Arial">L</text></svg>';
+  const rightIconData = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><rect width="128" height="128" rx="16" fill="%23f0f2f7"/><circle cx="64" cy="64" r="30" fill="%23dfe4ef"/><path d="M64 38v16M64 74v16M38 64h16M74 64h16" stroke="%230645ad" stroke-width="4" stroke-linecap="round"/><text x="64" y="110" font-size="16" fill="%230645ad" text-anchor="middle" font-family="Poppins,Arial">.NET</text></svg>';
+
+  document.getElementById('leftLegendImg').src = leftIconData;
+  document.getElementById('rightLegendImg').src = rightIconData;
+
+  // Helper: try a sequence of URLs until one works
   async function fetchFirst(urls){
     for(const u of urls){
       try{
@@ -261,9 +320,11 @@ C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based 
     throw new Error('All sources failed: ' + urls.join(', '));
   }
 
+  // Local filenames (place HTML beside these files)
   const LEFT_PATHS  = ['Langauge.Evolution.CSharp.Left.json'];
   const RIGHT_PATHS = ['Langauge.Evolution.CSharp.Right.json'];
 
+  // Load JSON
   let leftRaw, rightRaw;
   try{
     leftRaw  = await fetchFirst(LEFT_PATHS);
@@ -275,11 +336,13 @@ C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based 
     return;
   }
 
+  // Extract shapes we need
   const leftVersions = (leftRaw.aiEngine1 && Array.isArray(leftRaw.aiEngine1.versions))
     ? leftRaw.aiEngine1.versions : [];
   const rightHistory = (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.detailedHistory))
     ? rightRaw.aiEngine2.detailedHistory : [];
 
+  // Quick Reference Table rows (now rendered at END)
   const quickRef =
     (leftRaw.aiEngine2 && Array.isArray(leftRaw.aiEngine2.quickReferenceTable) ? leftRaw.aiEngine2.quickReferenceTable : null) ||
     (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.quickReferenceTable) ? rightRaw.aiEngine2.quickReferenceTable : null) ||
@@ -289,25 +352,29 @@ C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based 
   if(quickRef.length){
     quickRef.forEach(r=>{
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${r.version}</td><td>${r.yearAndDotNet||''}</td><td>${r.notableFeatures||''}</td>`;
+      tr.innerHTML = `
+        <td>${r.version}</td>
+        <td>${r.yearAndDotNet || ''}</td>
+        <td>${r.notableFeatures || ''}</td>`;
       qrtBody.appendChild(tr);
     });
   }else{
     qrtBody.innerHTML = '<tr><td colspan="3" class="muted">No quick reference data found in JSON.</td></tr>';
   }
 
+  // Index right-hand history by version
   const rightByVersion = new Map();
   rightHistory.forEach(item => { if(item && item.version) rightByVersion.set(String(item.version), item); });
 
+  // sort helper
   function versionKey(v){
     const parts = String(v).split('.');
-    const major = parts[0].padStart(2,'0');
+    const major = (parts[0]||'0').padStart(2,'0');
     const minor = (parts[1]||'0').padStart(2,'0');
     return `${major}.${minor}`;
   }
 
   const rows = document.getElementById('rows');
-
   function makeUl(list){
     const ul = document.createElement('ul');
     list.forEach(x => { const li = document.createElement('li'); li.textContent = x; ul.appendChild(li); });
@@ -324,17 +391,18 @@ C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based 
   sortedLeft.forEach(lv => {
     const vStr = String(lv.version);
 
+    // LEFT cell (dark)
+    const cellL = document.createElement('div');
+    cellL.className = 'cell left-dark';
+
     if(vStr === '7.x'){
-      const cellL = document.createElement('div');
-      cellL.className = 'cell left-dark';
       cellL.innerHTML = `
         <div class="badge">
           <span class="version-chip">C# 7.x</span>
           <span class="pill">${lv.yearRange || '2017–2018'}</span>
         </div>
         <div class="title">Multiple subversions with progressive enhancements</div>
-        <div class="muted">${lv.description || ''}</div>
-      `;
+        <div class="muted">${lv.description || ''}</div>`;
       if(Array.isArray(lv.subversions)){
         const merged = document.createElement('ul');
         lv.subversions.forEach(sv=>{
@@ -344,73 +412,60 @@ C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based 
         });
         cellL.appendChild(merged);
       }
-
-      const cellR = document.createElement('div');
-      cellR.className = 'cell';
-      cellR.innerHTML = `
+    } else {
+      let leftHead = `
         <div class="badge">
-          <span class="version-chip">C# 7.x</span>
-          <span class="pill">Themes & .NET</span>
-        </div>
-        <div class="title">C# 7.0 → 7.3</div>
-      `;
+          <span class="version-chip">C# ${lv.version}</span>
+          ${lv.year ? `<span class="pill">${lv.year}</span>` : ''}
+        </div>`;
+      if(lv.description){ leftHead += `<div class="title">${lv.description}</div>`; }
+      cellL.innerHTML = leftHead;
+      if(Array.isArray(lv.features) && lv.features.length){
+        cellL.appendChild(makeUl(lv.features));
+      }
+    }
+
+    // RIGHT cell (light)
+    const cellR = document.createElement('div');
+    cellR.className = 'cell';
+    const rh = rightByVersion.get(vStr === '7.x' ? '7.0' : String(lv.version));
+    const dotnet = rh && rh.dotNetVersion ? rh.dotNetVersion : '';
+    const theme  = rh && rh.theme ? rh.theme : (vStr === '7.x' ? 'C# 7.0 → 7.3' : 'Details');
+
+    cellR.innerHTML = `
+      <div class="badge">
+        <span class="version-chip">C# ${vStr}</span>
+        ${dotnet ? `<span class="pill">${dotnet}</span>` : ''}
+        ${theme  ? `<span class="pill">${theme}</span>`   : ''}
+      </div>
+      <div class="title">${theme}</div>`;
+
+    if(vStr === '7.x'){
       const rightList = document.createElement('ul');
       ['7.0','7.1','7.2','7.3'].forEach(v=>{
-        const rh = rightByVersion.get(v);
-        if(rh){
+        const rhi = rightByVersion.get(v);
+        if(rhi){
           const li = document.createElement('li');
-          const dotnet = rh.dotNetVersion ? ` — <em>${rh.dotNetVersion}</em>` : '';
-          const theme  = rh.theme ? ` — ${rh.theme}` : '';
-          li.innerHTML = `<strong>${v}</strong>${dotnet}${theme}`;
-          if(Array.isArray(rh.features) && rh.features.length){
+          const dn = rhi.dotNetVersion ? ` — <em>${rhi.dotNetVersion}</em>` : '';
+          const th = rhi.theme ? ` — ${rhi.theme}` : '';
+          li.innerHTML = `<strong>${v}</strong>${dn}${th}`;
+          if(Array.isArray(rhi.features) && rhi.features.length){
             const inner = document.createElement('ul');
-            rh.features.forEach(f=>{ const li2=document.createElement('li'); li2.textContent=f; inner.appendChild(li2); });
+            rhi.features.forEach(f=>{ const li2=document.createElement('li'); li2.textContent=f; inner.appendChild(li2); });
             li.appendChild(inner);
           }
           rightList.appendChild(li);
         }
       });
       if(rightList.children.length){ cellR.appendChild(rightList); }
-      rows.appendChild(cellL);
-      rows.appendChild(cellR);
-      total++;
-      return;
-    }
-
-    const cellL = document.createElement('div');
-    cellL.className = 'cell left-dark';
-    let leftHead = `
-      <div class="badge">
-        <span class="version-chip">C# ${lv.version}</span>
-        <span class="pill">${lv.year ?? ''}</span>
-      </div>
-    `;
-    if(lv.description){ leftHead += `<div class="title">${lv.description}</div>`; }
-    cellL.innerHTML = leftHead;
-    if(Array.isArray(lv.features) && lv.features.length){
-      cellL.appendChild(makeUl(lv.features));
-    }
-
-    const cellR = document.createElement('div');
-    cellR.className = 'cell';
-    const rh = rightByVersion.get(String(lv.version));
-    const dotnet = rh && rh.dotNetVersion ? rh.dotNetVersion : '';
-    const theme  = rh && rh.theme ? rh.theme : '';
-    cellR.innerHTML = `
-      <div class="badge">
-        <span class="version-chip">C# ${lv.version}</span>
-        ${dotnet ? `<span class="pill">${dotnet}</span>` : ''}
-        ${theme  ? `<span class="pill">${theme}</span>`   : ''}
-      </div>
-      <div class="title">${theme || 'Details'}</div>
-    `;
-    if(rh && Array.isArray(rh.features) && rh.features.length){
-      cellR.appendChild(makeUl(rh.features));
-    }else{
-      const p = document.createElement('div');
-      p.className = 'muted';
-      p.textContent = 'No feature list available for this version in the right JSON.';
-      cellR.appendChild(p);
+    } else {
+      if(rh && Array.isArray(rh.features) && rh.features.length){
+        cellR.appendChild(makeUl(rh.features));
+      }else{
+        const p = document.createElement('div'); p.className='muted';
+        p.textContent = 'No feature list available for this version in the right JSON.';
+        cellR.appendChild(p);
+      }
     }
 
     rows.appendChild(cellL);
@@ -419,8 +474,44 @@ C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based 
   });
 
   document.getElementById('footnote').textContent =
-    `Rendered ${total} aligned rows (C# 1.0 → 14.0, including a combined 7.x row).`;
+    `Rendered ${total} aligned rows (C# 1.0 → 14.0, including combined 7.x).`;
 
+  /* ---------- References (before final table) ---------- */
+  function buildRefs(container, refs){
+    if(!Array.isArray(refs) || refs.length===0){
+      container.innerHTML = '<div class="muted">No references found.</div>';
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    refs.forEach(cat=>{
+      const title = document.createElement('div');
+      title.className = 'ref-cat';
+      title.textContent = cat.category || 'Category';
+      frag.appendChild(title);
+      const ul = document.createElement('ul');
+      (cat.links||[]).forEach(l=>{
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = l.url; a.target = '_blank'; a.rel='noopener';
+        a.textContent = l.title || l.url;
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      frag.appendChild(ul);
+    });
+    container.appendChild(frag);
+  }
+
+  const refsLeft  = leftRaw.references || (leftRaw.aiEngine3 && leftRaw.aiEngine3.references) || [];
+  const refsRight = rightRaw.references || (rightRaw.aiEngine3 && rightRaw.aiEngine3.references) || [];
+
+  buildRefs(document.getElementById('refsLeft'),  refsLeft);
+  buildRefs(document.getElementById('refsRight'), refsRight);
+
+  // Show the section if any side has references
+  if ((refsLeft && refsLeft.length) || (refsRight && refsRight.length)){
+    document.getElementById('refsSection').hidden = false;
+  }
 })();
 </script>
 
