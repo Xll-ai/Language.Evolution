@@ -78,12 +78,29 @@
       border-radius:16px;
     }
 
-    .legend{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:var(--gap);
-      margin:6px 0 12px;
-      align-items:end;
+    .heading {
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+    .heading-icon {
+      width:256px;
+      height:256px;
+      object-fit:contain;
+    }
+    .heading h2 {
+      margin:0;
+      font-size:1.8rem;
+      font-weight:600;
+    }
+
+
+    .legend-img {
+      display:block;
+      margin:0 auto 6px;
+      width:128px;      /* adjust as needed */
+      height:128px;
+      object-fit:contain;
     }
     .legend-col{
       text-align:center;
@@ -231,9 +248,10 @@
   </style>
 </head>
 <body>
-  <div class="prompt">
+<div class="prompt heading">
+  <img src="images/csharp-icon.png" alt="C# Icon" class="heading-icon">
   <h2>C# Language Evolution 2002-2025</h2>
-  </div>
+</div>
   <!-- PROMPT (scrolls with page) -->
   <div class="prompt">
     <div class="badge">PROMPT</div>
