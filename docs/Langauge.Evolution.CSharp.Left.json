@@ -1,0 +1,429 @@
+{
+  "aiEngine1": {
+    "title": "C# Version History (1.0 to 14)",
+    "versions": [
+      {
+        "version": "1.0",
+        "year": 2002,
+        "description": "Introduced the core of C#: interfaces, events, properties, delegates, operators, attributes, and basic control flow and expression constructs."
+      },
+      {
+        "version": "1.2",
+        "year": 2003,
+        "description": "Minor improvements, notably refinement of foreach code generation involving Dispose."
+      },
+      {
+        "version": "2.0",
+        "year": 2005,
+        "description": "Major enhancements:",
+        "features": [
+          "Generics",
+          "Partial types",
+          "Anonymous methods",
+          "Nullable value types",
+          "Iterators (yield)",
+          "Covariance and contravariance",
+          "Static classes",
+          "Method group conversions",
+          "Private setters"
+        ]
+      },
+      {
+        "version": "3.0",
+        "year": 2007,
+        "description": "Key productivity features:",
+        "features": [
+          "Implicitly typed local variables (var)",
+          "Object and collection initializers",
+          "Auto-implemented properties",
+          "Anonymous types",
+          "Extension methods",
+          "Query expressions (LINQ)",
+          "Lambda expressions",
+          "Expression trees",
+          "Partial methods"
+        ]
+      },
+      {
+        "version": "4.0",
+        "year": 2010,
+        "description": "Designed for interop and dynamic features:",
+        "features": [
+          "Dynamic binding (dynamic)",
+          "Named and optional arguments",
+          "Generic covariance and contravariance",
+          "Embedded interop types (“NoPIA”)"
+        ]
+      },
+      {
+        "version": "5.0",
+        "year": 2012,
+        "description": "Modern async programming:",
+        "features": [
+          "async/await and asynchronous members",
+          "Caller info attributes (CallerMemberName, etc.)"
+        ]
+      },
+      {
+        "version": "6.0",
+        "year": 2015,
+        "description": "Syntactic sugar for cleaner code:",
+        "features": [
+          "Expression-bodied members",
+          "Auto-property initializers",
+          "nameof expression",
+          "Exception filters",
+          "await in catch/finally",
+          "String interpolation",
+          "Static imports (using static)"
+        ]
+      },
+      {
+        "version": "7.x",
+        "yearRange": "2017–2018",
+        "description": "Multiple subversions with progressive enhancements:",
+        "subversions": [
+          {
+            "version": "7.0",
+            "features": ["out variables", "tuples & deconstruction", "pattern matching", "local functions", "expression-bodied members extended", "discards"]
+          },
+          {
+            "version": "7.1",
+            "features": ["inferred tuple element names", "async Main", "pattern matching on generic parameters"]
+          },
+          {
+            "version": "7.2",
+            "features": ["ref reassign", "stackalloc initializers", "fixed field access without pinning"]
+          },
+          {
+            "version": "7.3",
+            "features": ["more pattern matching", "broader framework support"]
+          }
+        ]
+      },
+      {
+        "version": "8.0",
+        "year": 2019,
+        "description": "Added modern programming constructs:",
+        "features": [
+          "Default interface methods",
+          "Switch expressions",
+          "Indices and ranges",
+          "Async streams (IAsyncEnumerable)",
+          "Nullable reference types",
+          "Static local functions",
+          "Using declarations",
+          "Disposable ref structs",
+          "Null-coalescing assignment ??=",
+          "Stackalloc in nested expressions & unmanaged constructed types"
+        ]
+      },
+      {
+        "version": "9.0",
+        "year": 2020,
+        "description": "Focused on simplicity and immutability:",
+        "features": [
+          "Records",
+          "Init-only setters",
+          "Top-level statements",
+          "Native-sized integers",
+          "Function pointers",
+          "Suppress localsinit flag",
+          "Module initializers"
+        ]
+      },
+      {
+        "version": "10.0",
+        "year": 2021,
+        "description": "Modernizations and reduced ceremony:",
+        "features": [
+          "Record structs",
+          "Parameterless struct constructors",
+          "Global using directives",
+          "File-scoped namespaces",
+          "with expressions & init enhancements",
+          "Caller argument expressions",
+          "Constant interpolated strings",
+          "Lambda enhancements, generic attributes"
+        ]
+      },
+      {
+        "version": "11.0",
+        "year": 2022,
+        "description": "Generics & performance:",
+        "features": [
+          "Generic math",
+          "IntPtr and UIntPtr keywords",
+          "Line breaks in string interpolation",
+          "List patterns",
+          "File-local types",
+          "Required members",
+          "ref fields in ref structs",
+          "Default struct values",
+          "UTF‑8 string literal suffix u8",
+          "Expanded nameof capabilities",
+          "Raw string literals"
+        ]
+      },
+      {
+        "version": "12.0",
+        "year": 2023,
+        "description": "New syntactic capabilities:",
+        "features": [
+          "Primary constructors on any class or struct",
+          "Collection expressions (e.g. [a, b, c])",
+          "Inline arrays",
+          "Optional parameters in lambdas",
+          "ref readonly parameters",
+          "Alias-any-type (using X = Y; at local scope)",
+          "Experimental attribute for annotating unstable features",
+          "Interceptors (preview)"
+        ]
+      },
+      {
+        "version": "13.0",
+        "year": 2024,
+        "description": "Enhancements for ergonomics and performance:",
+        "features": [
+          "params collections (not limited to arrays)",
+          "New System.Threading.Lock type for improved lock semantics",
+          "New escape sequence \\e for the ESC character",
+          "Method group natural-type resolution improvements",
+          "Implicit indexer access (^) in object initializers",
+          "Support for ref locals and unsafe contexts in async and iterator methods",
+          "Allow ref struct to implement interfaces",
+          "Allow ref struct as generic type arguments via allows ref struct constraint",
+          "Partial properties and indexers in partial types",
+          "Overload resolution priority attribute for better default overload selection"
+        ]
+      },
+      {
+        "version": "14.0",
+        "year": 2025,
+        "description": "Latest additions, shipped with .NET 10:",
+        "features": [
+          "Extension members (including extension properties and static extension members; preview feature)",
+          "Null‑conditional assignment (?. and ?[] on assignment and compound assignment)",
+          "nameof now supports unbound generic types",
+          "More implicit conversions for Span<T> and ReadOnlySpan<T>",
+          "Modifiers on simple lambda parameters",
+          "Field-backed properties via the field keyword in setters",
+          "Partial events and partial constructors",
+          "User-defined compound assignment operators",
+          "File-based apps: run single .cs scripts directly with dotnet run app.cs (via .NET 10 preview 4)"
+        ]
+      }
+    ],
+    "references": [
+        {
+            "category": "Microsoft Learn (official docs)",
+            "links": [
+                {"title": "What’s new in C# (version history)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history"},
+                {"title": "What’s new in C# 12", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12"},
+                {"title": "What’s new in C# 13", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13"}
+            ]
+        },
+        {
+            "category": ".NET Blog (official announcements)",
+            "links": [
+                {"title": "Announcing C# 12", "url": "https://devblogs.microsoft.com/dotnet/announcing-csharp-12/"}
+            ]
+        },
+        {
+            "category": "Wikipedia",
+            "links": [
+                {"title": "C Sharp (programming language)", "url": "https://en.wikipedia.org/wiki/C_Sharp_(programming_language)"},
+                {"title": "C Sharp syntax", "url": "https://en.wikipedia.org/wiki/C_Sharp_syntax"},
+                {"title": "C# on German Wikipedia", "url": "https://de.wikipedia.org/wiki/C-Sharp"},
+                {"title": "C# on Russian Wikipedia", "url": "https://ru.wikipedia.org/wiki/C_Sharp"}
+            ]
+        },
+        {
+            "category": "Community / Blogs",
+            "links": [
+                {"title": "Syncfusion Blog – What’s new in C# 13", "url": "https://www.syncfusion.com/blogs/post/whats-new-csharp-13-for-developers"},
+                {"title": "WPExperts – C# Version History", "url": "https://wpexperts.io/blog/c-sharp-version-history/"},
+                {"title": "Medium – C# 12 performance enhancements", "url": "https://medium.com/@gustavoboesepederiva/whats-new-in-c-12-performance-enhancements-and-exciting-features-5f91964c4362"},
+                {"title": "Medium – Comparing C# 12 vs C# 13", "url": "https://medium.com/@hasan_denli/c-13-new-features-and-comparing-with-c-12-6a7216d6a25b"},
+                {"title": "InfoWorld – Best new features in C# 12", "url": "https://www.infoworld.com/article/2335643/the-best-new-features-in-c-sharp-12.html"},
+                {"title": "Reddit – What’s new in C# 13 overview", "url": "https://www.reddit.com/r/dotnet/comments/1g9ighp/whats_new_in_c_13_overview/"}
+            ]
+        },
+        {
+            "category": "C# 14 (latest, .NET 10)",
+            "links": [
+                {"title": "Wikipedia – C# (German, 2025 updates)", "url": "https://de.wikipedia.org/wiki/C-Sharp"},
+                {"title": "Wikipedia – C# (Russian, 2025 updates)", "url": "https://ru.wikipedia.org/wiki/C_Sharp"},
+                {"title": "InfoWorld – Early C# 14 previews and features", "url": "https://www.infoworld.com/article/2335643/the-best-new-features-in-c-sharp-12.html"},
+                {"title": "Medium – C# 13 new features & C# 14 outlook", "url": "https://medium.com/@hasan_denli/c-13-new-features-and-comparing-with-c-12-6a7216d6a25b"},
+                {"title": ".NET 10 Preview 4 release notes (file-based apps, C# 14 features)", "url": "https://devblogs.microsoft.com/dotnet/"}
+            ]
+        }
+    ]
+  },
+  "aiEngine2": {
+    "title": "C# Language Evolution: Complete Version Guide (C# 1.0 - C# 14)",
+    "quickReferenceTable": [
+      {"version": "C# 1.0 – 3.0", "yearAndDotNet": "2002–2007", "notableFeatures": "Language basics, generics, LINQ, lambda, extension methods"},
+      {"version": "C# 4.0 – 6.0", "yearAndDotNet": "2010–2015", "notableFeatures": "Dynamic, async/await, string interpolation, `nameof`, richer expressions"},
+      {"version": "C# 7.x – 9.0", "yearAndDotNet": "2017–2020", "notableFeatures": "Pattern matching, tuples, top-level statements, records"},
+      {"version": "C# 10 – 11", "yearAndDotNet": "2021–2022", "notableFeatures": "File-scoped namespaces, record structs, generic math, raw strings"},
+      {"version": "C# 12", "yearAndDotNet": "2023 (.NET 8)", "notableFeatures": "Primary constructors, collection expressions, inline arrays"},
+      {"version": "C# 13", "yearAndDotNet": "2024 (.NET 9)", "notableFeatures": "`params` collections, new `Lock` type, partial props/indexers"},
+      {"version": "C# 14", "yearAndDotNet": "2025 (.NET 10)", "notableFeatures": "Extension members, null-conditional assignment, file-based apps"}
+    ],
+    "detailedHistory": [
+      {
+        "version": "1.0", "year": 2002, "dotNetVersion": ".NET Framework 1.0/1.1", "theme": "Foundation Features",
+        "features": ["Classes and objects", "Inheritance and polymorphism", "Properties and indexers", "Events and delegates", "Exception handling", "Attributes", "Unsafe code blocks", "XML documentation comments"]
+      },
+      {
+        "version": "1.2", "year": 2003, "dotNetVersion": ".NET Framework 1.1",
+        "features": ["`foreach` loop improvements", "Conditional compilation improvements"]
+      },
+      {
+        "version": "2.0", "year": 2005, "dotNetVersion": ".NET Framework 2.0", "theme": "Major Additions",
+        "features": ["Generics", "Nullable types", "Anonymous methods", "Iterators", "Partial classes", "Static classes", "Covariance and contravariance", "Namespace aliases"]
+      },
+      {
+        "version": "3.0", "year": 2007, "dotNetVersion": ".NET Framework 3.5", "theme": "LINQ Era",
+        "features": ["LINQ (Language Integrated Query)", "Lambda expressions", "Expression trees", "Anonymous types", "Extension methods", "Object initializers", "Collection initializers", "Auto-implemented properties", "Implicitly typed variables", "Partial methods"]
+      },
+      {
+        "version": "4.0", "year": 2010, "dotNetVersion": ".NET Framework 4.0", "theme": "Dynamic Programming",
+        "features": ["Dynamic binding", "Named parameters", "Optional parameters", "Generic covariance/contravariance", "Embedded interop types"]
+      },
+      {
+        "version": "5.0", "year": 2012, "dotNetVersion": ".NET Framework 4.5", "theme": "Async Revolution",
+        "features": ["Async/await", "Caller information attributes"]
+      },
+      {
+        "version": "6.0", "year": 2015, "dotNetVersion": ".NET Framework 4.6/.NET Core 1.0", "theme": "Developer Productivity",
+        "features": ["String interpolation", "Auto-property initializers", "Expression-bodied members", "Null-conditional operators", "`nameof` operator", "Dictionary initializers", "Exception filters", "`using static`", "Await in catch/finally blocks"]
+      },
+      {
+        "version": "7.0", "year": 2017, "dotNetVersion": ".NET Core 2.0/.NET Framework 4.7", "theme": "Pattern Matching Begins",
+        "features": ["Tuples", "Pattern matching", "Out variables", "Deconstruction", "Local functions", "More expression-bodied members", "Throw expressions", "Binary literals and digit separators", "Ref returns and locals"]
+      },
+      {
+        "version": "7.1", "year": 2017, "theme": "Minor Enhancements",
+        "features": ["Async Main", "Inferred tuple names", "Pattern matching with generics", "Default expressions"]
+      },
+      {
+        "version": "7.2", "year": 2017, "theme": "Performance & Safety",
+        "features": ["Reference semantics with value types", "Non-trailing named arguments", "Leading underscores in numeric literals", "`private protected` access modifier", "Conditional `ref` expressions"]
+      },
+      {
+        "version": "7.3", "year": 2018, "theme": "Refinements",
+        "features": ["Tuple equality", "Enhanced generic constraints", "More expression variables", "Auto-implemented property field-targeted attributes", "Stackalloc initializers", "Fixed pattern improvements"]
+      },
+      {
+        "version": "8.0", "year": 2019, "dotNetVersion": ".NET Core 3.0/.NET Framework 4.8", "theme": "Nullable Reference Types",
+        "features": ["Nullable reference types", "Switch expressions", "Property patterns", "Using declarations", "Static local functions", "Disposable ref structs", "Null-coalescing assignment", "Unmanaged constructed types", "Stackalloc in nested expressions", "Enhancement of interpolated verbatim strings", "Default interface methods", "Positional patterns", "Tuple patterns"]
+      },
+      {
+        "version": "9.0", "year": 2020, "dotNetVersion": ".NET 5.0", "theme": "Records & Modern Patterns",
+        "features": ["Records", "Init-only setters", "Top-level statements", "Pattern matching enhancements", "Target-typed `new` expressions", "Target-typed conditional expressions", "Covariant return types", "Extension `GetEnumerator`", "Lambda discard parameters", "Attributes on local functions", "Module initializers", "Partial methods with accessibility modifiers", "Native integers", "Function pointers"]
+      },
+      {
+        "version": "10.0", "year": 2021, "dotNetVersion": ".NET 6.0", "theme": "Simplification & Performance",
+        "features": ["File-scoped namespaces", "Global using directives", "Implicit usings", "Record structs", "Improvements to struct types", "Interpolated string handlers", "`CallerArgumentExpression` attribute", "Enhanced `#line` pragma", "Warning wave 6", "Constant interpolated strings", "Record types can seal `ToString()`", "Improved definite assignment", "Allow both assignment and declaration in deconstruction", "Mixed declarations in deconstruction"]
+      },
+      {
+        "version": "11.0", "year": 2022, "dotNetVersion": ".NET 7.0", "theme": "Raw Strings & Generic Math",
+        "features": ["Raw string literals", "Generic math support", "Generic attributes", "UTF-8 string literals", "Newlines in string interpolations", "List patterns", "File-local types", "Required members", "Auto-default structs", "Pattern match `Span<char>` on strings", "Extended nameof scope", "Numeric `IntPtr` and `UIntPtr`", "`ref` fields and `scoped` ref", "Improved method group conversion to delegate", "Warning wave 7"]
+      },
+      {
+        "version": "12.0", "year": 2023, "dotNetVersion": ".NET 8.0", "theme": "Primary Constructors & Collections",
+        "features": ["Primary constructors", "Collection expressions", "Inline arrays", "Optional parameters in lambda expressions", "Ref readonly parameters", "Default lambda parameters", "Alias any type", "Experimental attribute", "Interceptors"]
+      },
+      {
+        "version": "13.0", "year": 2024, "dotNetVersion": ".NET 9.0", "theme": "Enhanced Collections & Concurrency",
+        "features": ["`params` collections", "New `Lock` type", "Partial properties and indexers", "Method group natural type improvements", "Implicit index access", "Allow ref struct interfaces", "More partial member support"]
+      },
+      {
+        "version": "14.0", "year": 2025, "dotNetVersion": ".NET 10.0", "theme": "Extension Everything & Modern Workflows",
+        "features": ["Extension members", "Null-conditional assignment operators", "File-based applications", "Enhanced pattern matching", "Discriminated unions", "Improved performance", "Enhanced async patterns", "Better nullable analysis"]
+      }
+    ],
+    "evolutionaryThemes": [
+      {"era": "Foundation Era (C# 1-2)", "description": "Object-oriented programming, type safety, generics"},
+      {"era": "Query Era (C# 3)", "description": "LINQ, functional programming concepts, expression trees"},
+      {"era": "Dynamic Era (C# 4-5)", "description": "Interoperability, async programming, dynamic typing"},
+      {"era": "Productivity Era (C# 6-8)", "description": "Developer experience, null safety, pattern matching"},
+      {"era": "Modern Era (C# 9-11)", "description": "Records, top-level programs, performance, generic math"},
+      {"era": "Current Era (C# 12-14)", "description": "Collection expressions, primary constructors, extension everything"}
+    ],
+    "references": [
+        {
+            "category": "Microsoft Learn (official docs)",
+            "links": [
+                {"title": "What's new in C# (version history)", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history"},
+                {"title": "C# Guide - .NET managed language", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/"},
+                {"title": "C# language reference", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/"},
+                {"title": "C# language specification - Introduction", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/introduction"},
+                {"title": "C# language specification - Table of contents", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/readme"},
+                {"title": "Language versioning - C# reference", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-versioning"},
+                {"title": "Configure language version - C# reference", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version"}
+            ]
+        },
+        {
+            "category": "What's New by Version",
+            "links": [
+                {"title": "What's new in C# 14", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14"},
+                {"title": "What's new in C# 13", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13"},
+                {"title": "What's new in C# 12", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12"},
+                {"title": "What's new in C# 11", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11"},
+                {"title": "What's new in C# 10", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-10"},
+                {"title": "What's new in C# 9.0", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9"},
+                {"title": "What's new in C# 8.0", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8"},
+                {"title": "What's new in C# 7.0", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7"},
+                {"title": "What's new in C# 6.0", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-6"}
+            ]
+        },
+        {
+            "category": ".NET Documentation",
+            "links": [
+                {"title": ".NET documentation", "url": "https://learn.microsoft.com/en-us/dotnet/"},
+                {"title": "What's new in .NET 10", "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/overview"},
+                {"title": "What's new in .NET 9", "url": "https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview"}
+            ]
+        },
+        {
+            "category": "Feature Documentation",
+            "links": [
+                {"title": "Pattern matching", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns"},
+                {"title": "Records", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record"},
+                {"title": "Nullable reference types", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references"},
+                {"title": "Async programming", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/"},
+                {"title": "LINQ", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/"},
+                {"title": "Generics", "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/"}
+            ]
+        },
+        {
+            "category": "GitHub Repositories",
+            "links": [
+                {"title": "dotnet/roslyn - The .NET Compiler Platform", "url": "https://github.com/dotnet/roslyn"},
+                {"title": "dotnet/csharplang - Official C# Language Design Repository", "url": "https://github.com/dotnet/csharplang"},
+                {"title": "dotnet/csharpstandard - C# Language Standard Working Group", "url": "https://github.com/dotnet/csharpstandard"}
+            ]
+        },
+        {
+            "category": "Standards & Specifications",
+            "links": [
+                {"title": "ECMA-334: C# Language Specification", "url": "https://www.ecma-international.org/publications-and-standards/standards/ecma-334/"},
+                {"title": "ISO/IEC 23270:2018 - C# Language Specification", "url": "https://www.iso.org/standard/75178.html"},
+                {"title": "Download C# Language Specification 5.0", "url": "https://www.microsoft.com/en-us/download/details.aspx?id=7029"}
+            ]
+        },
+        {
+            "category": "Community Resources",
+            "links": [
+                {"title": "C# Language Specification Collection - Jon Skeet", "url": "https://csharpindepth.com/articles/Specifications"},
+                {"title": "Where can you find the C# Language Specifications? - Stack Overflow", "url": "https://stackoverflow.com/questions/127776/where-can-you-find-the-c-sharp-language-specifications"},
+                {"title": "C Sharp (programming language) - Wikipedia", "url": "https://en.wikipedia.org/wiki/C_Sharp_(programming_language)"}
+            ]
+        }
+    ]
+  }
+}
