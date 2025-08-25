@@ -435,32 +435,9 @@ Write in a professional but accessible style for senior developers. Include head
     // LEFT cell (dark)
     const cellL = document.createElement('div');
     cellL.className = 'cell left-dark';
-
-    if(vStr === '7.x'){
-      cellL.innerHTML = `
-        <div class="badge">
-          <span class="version-chip">C# 7.x</span>
-          <span class="pill">${lv.yearRange || '2017–2018'}</span>
-        </div>
-        <div class="title">Multiple subversions with progressive enhancements</div>
-        <div class="muted">${lv.description || ''}</div>`;
-      if(Array.isArray(lv.subversions)){
-        const merged = document.createElement('ul');
-        lv.subversions.forEach(sv=>{
-          const li = document.createElement('li');
-          li.innerHTML = `<strong>${sv.version}:</strong> ${(sv.features||[]).join(', ')}`;
-          merged.appendChild(li);
-        });
-        cellL.appendChild(merged);
-      }
-    } else {
-      let leftHead = `
-        <div class="badge">
-          <span class="version-chip">C# ${lv.version}</span>
-          ${lv.year ? `<span class="pill">${lv.year}</span>` : ''}
-        </div>`;
-    // Support new "article" property (paragraph text)
-    if(lv.article){
+    
+    // Support new "article" JSON property
+    if (lv.article) {
       cellL.innerHTML = `
         <div class="badge">
           <span class="version-chip">${lv.version}</span>
@@ -469,18 +446,20 @@ Write in a professional but accessible style for senior developers. Include head
         <div class="muted">${lv.article}</div>
       `;
     } else {
+      // fallback for old JSON
       let leftHead = `
         <div class="badge">
           <span class="version-chip">${lv.version}</span>
           ${lv.year ? `<span class="pill">${lv.year}</span>` : ''}
         </div>
       `;
-      if(lv.description){ leftHead += `<div class="title">${lv.description}</div>`; }
+      if (lv.description) leftHead += `<div class="title">${lv.description}</div>`;
       cellL.innerHTML = leftHead;
-      if(Array.isArray(lv.features) && lv.features.length){
+      if (Array.isArray(lv.features) && lv.features.length) {
         cellL.appendChild(makeUl(lv.features));
       }
     }
+
 
     // RIGHT cell (light)
     const cellR = document.createElement('div');
