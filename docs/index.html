@@ -9,158 +9,74 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --gap: 16px;
-      --radius: 16px;
-      --bg-light:#fff;
-      --fg-light:#000;
-      --panel-light:#f9f9f9;
-      --border-light:#ddd;
-
-      --bg-dark:#000;
-      --fg-dark:#fff;
-      --panel-dark:rgba(255,255,255,.06);
-      --border-dark:rgba(255,255,255,.2);
+      --gap:16px; --radius:16px;
+      --bg-light:#fff; --fg-light:#000; --panel-light:#f9f9f9; --border-light:#ddd;
+      --bg-dark:#000; --fg-dark:#fff; --panel-dark:rgba(255,255,255,.06); --border-dark:rgba(255,255,255,.2);
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg-light);
-      color:var(--fg-light);
+      background:var(--bg-light); color:var(--fg-light);
+      /* whole page scrolls naturally */
     }
     @media (prefers-color-scheme: dark){
       body{ background:var(--bg-dark); color:var(--fg-dark); }
     }
 
-    /* Top prompt spans full width */
-    .prompt-wrapper{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter:saturate(1.2) blur(6px);
-      background:linear-gradient(180deg, rgba(0,0,0,0.06), transparent);
-    }
-    @media (prefers-color-scheme: dark){
-      .prompt-wrapper{ background:linear-gradient(180deg, rgba(255,255,255,0.06), transparent); }
-    }
+    /* PROMPT (full width, scrolls with page) */
     .prompt{
-      max-width:1200px;
-      margin:0 auto;
-      padding:20px;
+      max-width:1200px; margin:0 auto; padding:20px 20px 4px;
     }
-    .prompt h1{
-      margin:.25rem 0 0;
-      font-size:1.4rem;
-      font-weight:600;
-      letter-spacing:.2px;
-    }
+    .prompt h1{ margin:.25rem 0 0; font-size:1.4rem; font-weight:600; letter-spacing:.2px; }
     .prompt .box{
-      margin-top:.75rem;
-      border-radius:var(--radius);
-      padding:16px;
-      border:1px solid var(--border-light);
-      background:var(--panel-light);
-      white-space:pre-wrap;
-      line-height:1.5;
+      margin-top:.75rem; border-radius:var(--radius); padding:16px;
+      border:1px solid var(--border-light); background:var(--panel-light);
+      white-space:pre-wrap; line-height:1.5;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     }
     @media (prefers-color-scheme: dark){
-      .prompt .box{
-        border-color:var(--border-dark);
-        background:var(--panel-dark);
-      }
+      .prompt .box{ border-color:var(--border-dark); background:var(--panel-dark); }
     }
 
-    /* Quick Reference Table inside prompt */
+    /* Main two-column grid */
+    .container{ max-width:1200px; margin:0 auto; padding:16px; }
+    .legend{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); margin:8px 0 6px; font-size:.9rem; opacity:.9; }
+    .legend>div{ text-align:center; }
+    .rows{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); align-items:start; }
+    .cell{
+      border-radius:var(--radius); padding:14px 16px; min-height:56px;
+      border:1px solid var(--border-light); background:var(--panel-light);
+    }
+    @media (prefers-color-scheme: dark){
+      .cell{ border-color:var(--border-dark); background:var(--panel-dark); }
+    }
+    .badge{ display:inline-flex; gap:8px; align-items:center; font-weight:600; font-size:.95rem; margin-bottom:.35rem; }
+    .pill{ display:inline-block; font-size:.78rem; padding:2px 8px; border-radius:999px; border:1px solid var(--border-light); }
+    @media (prefers-color-scheme: dark){ .pill{ border-color:var(--border-dark); } }
+    .title{ font-weight:600; margin:.1rem 0 .4rem; font-size:1.05rem; }
+    ul{ margin:.4rem 0 .2rem 1.05rem; }
+    .muted{ opacity:.9; font-size:.92rem; }
+    .version-chip{ font-size:.75rem; letter-spacing:.2px; padding:2px 8px; border-radius:999px; border:1px dashed var(--border-light); display:inline-block; margin-right:6px; }
+    @media (prefers-color-scheme: dark){ .version-chip{ border-color:var(--border-dark); } }
+    .foot{ text-align:center; font-size:.85rem; opacity:.7; margin:28px 0 18px; }
+
+    /* Quick Reference Table at the END (full width) */
+    .qrt-wrap{ max-width:1200px; margin:0 auto; padding:4px 20px 24px; }
     .qrt{
-      width:100%;
-      border-collapse:separate;
-      border-spacing:0;
-      overflow:hidden;
-      border-radius:12px;
-      margin-top:12px;
+      width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:12px; margin-top:12px;
       border:1px solid var(--border-light);
     }
-    .qrt th, .qrt td{
-      padding:10px 12px;
-      vertical-align:top;
-      text-align:left;
-      border-bottom:1px solid var(--border-light);
-    }
+    .qrt th,.qrt td{ padding:10px 12px; vertical-align:top; text-align:left; border-bottom:1px solid var(--border-light); }
     .qrt th{ font-weight:600; }
     .qrt tr:last-child td{ border-bottom:none; }
     @media (prefers-color-scheme: dark){
       .qrt{ border-color:var(--border-dark); }
-      .qrt th, .qrt td{ border-bottom:1px solid var(--border-dark); }
+      .qrt th,.qrt td{ border-bottom:1px solid var(--border-dark); }
     }
 
-    /* Two-column grid of aligned rows */
-    .container{
-      max-width:1200px;
-      margin:0 auto;
-      padding:16px;
-    }
-    .legend{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:var(--gap);
-      margin:8px 0 6px;
-      font-size:.9rem;
-      opacity:.9;
-    }
-    .legend > div{
-      text-align:center;
-    }
-    .rows{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:var(--gap);
-      align-items:start;
-    }
-    .cell{
-      border-radius:var(--radius);
-      padding:14px 16px;
-      border:1px solid var(--border-light);
-      background:var(--panel-light);
-      min-height:56px;
-    }
-    @media (prefers-color-scheme: dark){
-      .cell{
-        border-color:var(--border-dark);
-        background:var(--panel-dark);
-      }
-    }
-    .badge{
-      display:inline-flex; gap:8px; align-items:center;
-      font-weight:600; font-size:.95rem;
-      margin-bottom:.35rem;
-    }
-    .pill{
-      display:inline-block; font-size:.78rem; padding:2px 8px; border-radius:999px;
-      border:1px solid var(--border-light); background:transparent;
-    }
-    @media (prefers-color-scheme: dark){
-      .pill{ border-color:var(--border-dark); }
-    }
-    .title{
-      font-weight:600; margin:.1rem 0 .4rem; font-size:1.05rem;
-    }
-    ul{ margin:.4rem 0 .2rem 1.05rem; }
-    .muted{ opacity:.9; font-size:.92rem; }
-    .foot{
-      text-align:center; font-size:.85rem; opacity:.7; margin:28px 0 18px;
-    }
-
-    /* Stick the version chips to help eyes track horizontally */
-    .version-chip{
-      font-size:.75rem; letter-spacing:.2px;
-      padding:2px 8px; border-radius:999px; border:1px dashed var(--border-light);
-      display:inline-block; margin-right:6px;
-    }
-    @media (prefers-color-scheme: dark){
-      .version-chip{ border-color:var(--border-dark); }
-    }
-
-    /* Responsive: stack columns on very narrow screens */
-    @media (max-width: 820px){
+    /* Responsive */
+    @media (max-width:820px){
       .legend{ grid-template-columns:1fr; text-align:left; }
       .rows{ grid-template-columns:1fr; }
     }
@@ -168,11 +84,10 @@
 </head>
 <body>
 
-  <!-- PROMPT (Full width) -->
-  <div class="prompt-wrapper">
-    <div class="prompt">
-      <div class="badge">PROMPT</div>
-      <div class="box" id="promptBox">
+  <!-- PROMPT (scrolls with page) -->
+  <div class="prompt">
+    <div class="badge">PROMPT</div>
+    <div class="box" id="promptBox">
 starting with this exact reference guide
 
 Can you list all the upgrades in the C# language C#1 to C#14
@@ -186,19 +101,6 @@ C# 10 – 11	2021–2022	File-scoped namespaces, record structs, generic math, r
 C# 12	2023 (.NET 8)	Primary constructors, collection expressions, inline arrays
 C# 13	2024 (.NET 9)	params collections, new Lock type, partial props/indexers
 C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based apps
-      </div>
-
-      <!-- Quick Reference Table (auto-filled from JSON if available) -->
-      <table class="qrt" id="qrt" aria-label="Quick Reference Table">
-        <thead>
-          <tr>
-            <th>Version</th>
-            <th>Year &amp; .NET</th>
-            <th>Notable Features</th>
-          </tr>
-        </thead>
-        <tbody><!-- filled dynamically --></tbody>
-      </table>
     </div>
   </div>
 
@@ -208,127 +110,106 @@ C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based 
       <div>LEFT: High-level history & descriptions</div>
       <div>RIGHT: Themes, .NET version & feature bullets</div>
     </div>
-    <div class="rows" id="rows">
-      <!-- paired cells generated here -->
-    </div>
+    <div class="rows" id="rows"></div>
+    <div class="foot" id="footnote">Loading C# version data…</div>
+  </div>
 
-    <div class="foot" id="footnote">
-      Loading C# version data…
-    </div>
+  <!-- Quick Reference Table moved to END (full-width span) -->
+  <div class="qrt-wrap">
+    <table class="qrt" id="qrt" aria-label="Quick Reference Table">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Year &amp; .NET</th>
+          <th>Notable Features</th>
+        </tr>
+      </thead>
+      <tbody><!-- filled dynamically --></tbody>
+    </table>
   </div>
 
 <script>
 (async function(){
-  // Helper: try a sequence of URLs until one works
   async function fetchFirst(urls){
     for(const u of urls){
-      try{
-        const r = await fetch(u, {cache:'no-cache'});
-        if(!r.ok) throw new Error(String(r.status));
-        return await r.json();
-      }catch(e){
-        // try next
-      }
-    }
-    throw new Error('All sources failed: ' + urls.join(', '));
+      try{ const r = await fetch(u,{cache:'no-cache'}); if(!r.ok) throw new Error(r.status); return await r.json(); }
+      catch(_){} }
+    throw new Error('Could not load: '+urls.join(', '));
   }
 
-  // Local filenames (place HTML beside these files)
   const LEFT_PATHS  = ['Langauge.Evolution.CSharp.Left.json'];
   const RIGHT_PATHS = ['Langauge.Evolution.CSharp.Right.json'];
 
-  // Load JSON
   let leftRaw, rightRaw;
   try{
     leftRaw  = await fetchFirst(LEFT_PATHS);
     rightRaw = await fetchFirst(RIGHT_PATHS);
   }catch(err){
-    document.getElementById('footnote').textContent =
-      'Could not load JSON files. Ensure they are next to this HTML (exact names).';
+    document.getElementById('footnote').textContent = 'Could not load JSON files. Make sure they are beside this HTML.';
     console.error(err);
     return;
   }
 
-  // Extract shapes we need
-  // Left file usually: aiEngine1.versions (with optional features), aiEngine2.quickReferenceTable
-  // Right file: aiEngine2.detailedHistory (with themes/dotNet/features)
-  const leftVersions = (leftRaw.aiEngine1 && Array.isArray(leftRaw.aiEngine1.versions))
-    ? leftRaw.aiEngine1.versions : [];
-  const rightHistory = (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.detailedHistory))
-    ? rightRaw.aiEngine2.detailedHistory : [];
+  const leftVersions = (leftRaw.aiEngine1 && Array.isArray(leftRaw.aiEngine1.versions)) ? leftRaw.aiEngine1.versions : [];
+  const rightHistory = (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.detailedHistory)) ? rightRaw.aiEngine2.detailedHistory : [];
 
-  // Quick Reference Table (prefer left.aiEngine2.quickReferenceTable, otherwise right.aiEngine2.quickReferenceTable)
+  // Quick Reference data (for the END table)
   const quickRef =
     (leftRaw.aiEngine2 && Array.isArray(leftRaw.aiEngine2.quickReferenceTable) ? leftRaw.aiEngine2.quickReferenceTable : null) ||
     (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.quickReferenceTable) ? rightRaw.aiEngine2.quickReferenceTable : null) ||
     [];
 
-  // Fill QRT if found
+  // Populate END table
   const qrtBody = document.querySelector('#qrt tbody');
   if(quickRef.length){
     quickRef.forEach(r=>{
       const tr = document.createElement('tr');
-      const tdV = document.createElement('td'); tdV.textContent = r.version;
-      const tdY = document.createElement('td'); tdY.textContent = r.yearAndDotNet || '';
-      const tdF = document.createElement('td'); tdF.textContent = r.notableFeatures || '';
-      tr.append(tdV, tdY, tdF);
+      tr.innerHTML = `
+        <td>${r.version}</td>
+        <td>${r.yearAndDotNet || ''}</td>
+        <td>${r.notableFeatures || ''}</td>`;
       qrtBody.appendChild(tr);
     });
   }else{
-    // If no quickRef data, remove the table body message
     qrtBody.innerHTML = '<tr><td colspan="3" class="muted">No quick reference data found in JSON.</td></tr>';
   }
 
-  // Index right-hand history by version string (e.g., "1.0","2.0",...,"14.0")
+  // Map right history by version
   const rightByVersion = new Map();
-  rightHistory.forEach(item => { if(item && item.version) rightByVersion.set(String(item.version), item); });
+  rightHistory.forEach(it => { if(it && it.version) rightByVersion.set(String(it.version), it); });
 
-  // Known ordering by version number (string compare safe because all in X.Y format and <10 → pad)
   function versionKey(v){
-    const parts = String(v).split('.');
-    const major = parts[0].padStart(2,'0');
-    const minor = (parts[1]||'0').padStart(2,'0');
-    return `${major}.${minor}`;
+    const [a='0',b='0']=String(v).split('.');
+    return `${a.padStart(2,'0')}.${b.padStart(2,'0')}`;
   }
-
-  // Build rows: for each left version (1.0..14.0), align the right block with the same version
   const rows = document.getElementById('rows');
 
-  // Utility to create a bullet list if features exist
   function makeUl(list){
     const ul = document.createElement('ul');
-    list.forEach(x => {
-      const li = document.createElement('li');
-      li.textContent = x;
-      ul.appendChild(li);
-    });
+    list.forEach(x=>{ const li=document.createElement('li'); li.textContent=x; ul.appendChild(li); });
     return ul;
   }
 
-  // Sort left versions numerically where possible, keep 7.x grouped after 7.0..7.3
   const sortedLeft = [...leftVersions].sort((a,b)=>{
-    // treat "7.x" as "07.99" to follow 7.3
-    const ax = (a.version === '7.x') ? '07.99' : versionKey(a.version || '');
-    const bx = (b.version === '7.x') ? '07.99' : versionKey(b.version || '');
+    const ax = (a.version==='7.x') ? '07.99' : versionKey(a.version||'');
+    const bx = (b.version==='7.x') ? '07.99' : versionKey(b.version||'');
     return ax.localeCompare(bx, undefined, {numeric:true});
   });
 
-  let total = 0;
-  sortedLeft.forEach(lv => {
-    // Skip the "7.x" rollup row for alignment; we’ll still render its subversions as bullets on LEFT
+  let total=0;
+  sortedLeft.forEach(lv=>{
     const vStr = String(lv.version);
-    if(vStr === '7.x'){
-      // Still render a paired row: LEFT shows 7.x overview; RIGHT merges 7.0–7.3 info if present
+
+    if(vStr==='7.x'){
       const cellL = document.createElement('div');
-      cellL.className = 'cell';
+      cellL.className='cell';
       cellL.innerHTML = `
         <div class="badge">
           <span class="version-chip">C# 7.x</span>
           <span class="pill">${lv.yearRange || '2017–2018'}</span>
         </div>
         <div class="title">Multiple subversions with progressive enhancements</div>
-        <div class="muted">${lv.description || ''}</div>
-      `;
+        <div class="muted">${lv.description || ''}</div>`;
       if(Array.isArray(lv.subversions)){
         const merged = document.createElement('ul');
         lv.subversions.forEach(sv=>{
@@ -339,16 +220,14 @@ C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based 
         cellL.appendChild(merged);
       }
 
-      // RIGHT: combine 7.0–7.3 from rightByVersion
       const cellR = document.createElement('div');
-      cellR.className = 'cell';
+      cellR.className='cell';
       cellR.innerHTML = `
         <div class="badge">
           <span class="version-chip">C# 7.x</span>
-          <span class="pill">Themes & .NET</span>
+          <span class="pill">Themes &amp; .NET</span>
         </div>
-        <div class="title">C# 7.0 → 7.3</div>
-      `;
+        <div class="title">C# 7.0 → 7.3</div>`;
       const rightList = document.createElement('ul');
       ['7.0','7.1','7.2','7.3'].forEach(v=>{
         const rh = rightByVersion.get(v);
@@ -358,72 +237,50 @@ C# 14	2025 (.NET 10)	Extension members, null-conditional assignment, file-based 
           const theme  = rh.theme ? ` — ${rh.theme}` : '';
           li.innerHTML = `<strong>${v}</strong>${dotnet}${theme}`;
           if(Array.isArray(rh.features) && rh.features.length){
-            const inner = document.createElement('ul');
-            rh.features.forEach(f=>{
-              const li2 = document.createElement('li');
-              li2.textContent = f;
-              inner.appendChild(li2);
-            });
+            const inner=document.createElement('ul');
+            rh.features.forEach(f=>{ const li2=document.createElement('li'); li2.textContent=f; inner.appendChild(li2); });
             li.appendChild(inner);
           }
           rightList.appendChild(li);
         }
       });
-      if(rightList.children.length){ cellR.appendChild(rightList); }
-      rows.appendChild(cellL);
-      rows.appendChild(cellR);
-      total++;
+      if(rightList.children.length) cellR.appendChild(rightList);
+
+      rows.appendChild(cellL); rows.appendChild(cellR); total++;
       return;
     }
 
-    // Normal aligned row for a concrete version (1.0..14.0)
-    const cellL = document.createElement('div');
-    cellL.className = 'cell';
-
-    // LEFT: high-level text + features (if any)
-    let leftHead = `
+    const cellL = document.createElement('div'); cellL.className='cell';
+    cellL.innerHTML = `
       <div class="badge">
         <span class="version-chip">C# ${lv.version}</span>
-        <span class="pill">${lv.year ?? ''}</span>
+        ${lv.year ? `<span class="pill">${lv.year}</span>`:''}
       </div>
-    `;
-    if(lv.description){ leftHead += `<div class="title">${lv.description}</div>`; }
-    cellL.innerHTML = leftHead;
-    if(Array.isArray(lv.features) && lv.features.length){
-      cellL.appendChild(makeUl(lv.features));
-    }
+      ${lv.description ? `<div class="title">${lv.description}</div>`:''}`;
+    if(Array.isArray(lv.features) && lv.features.length) cellL.appendChild(makeUl(lv.features));
 
-    // RIGHT: theme/.NET/feature list for same version
-    const cellR = document.createElement('div');
-    cellR.className = 'cell';
+    const cellR = document.createElement('div'); cellR.className='cell';
     const rh = rightByVersion.get(String(lv.version));
     const dotnet = rh && rh.dotNetVersion ? rh.dotNetVersion : '';
     const theme  = rh && rh.theme ? rh.theme : '';
     cellR.innerHTML = `
       <div class="badge">
         <span class="version-chip">C# ${lv.version}</span>
-        ${dotnet ? `<span class="pill">${dotnet}</span>` : ''}
-        ${theme  ? `<span class="pill">${theme}</span>`   : ''}
+        ${dotnet ? `<span class="pill">${dotnet}</span>`:''}
+        ${theme ? `<span class="pill">${theme}</span>`:''}
       </div>
-      <div class="title">${theme || 'Details'}</div>
-    `;
+      <div class="title">${theme || 'Details'}</div>`;
     if(rh && Array.isArray(rh.features) && rh.features.length){
       cellR.appendChild(makeUl(rh.features));
     }else{
-      const p = document.createElement('div');
-      p.className = 'muted';
-      p.textContent = 'No feature list available for this version in the right JSON.';
+      const p=document.createElement('div'); p.className='muted'; p.textContent='No feature list available for this version in the right JSON.';
       cellR.appendChild(p);
     }
 
-    rows.appendChild(cellL);
-    rows.appendChild(cellR);
-    total++;
+    rows.appendChild(cellL); rows.appendChild(cellR); total++;
   });
 
-  document.getElementById('footnote').textContent =
-    `Rendered ${total} aligned rows (C# 1.0 → 14.0, including a combined 7.x row).`;
-
+  document.getElementById('footnote').textContent = `Rendered ${total} aligned rows (C# 1.0 → 14.0, including a combined 7.x row).`;
 })();
 </script>
 
