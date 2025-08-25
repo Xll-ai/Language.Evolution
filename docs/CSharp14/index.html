@@ -1,1 +1,561 @@
-sdd
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="color-scheme" content="light dark">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C# Language Evolution – Two-Column Reference</title>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --gap:16px;
+      --radius:16px;
+
+      /* Right/light */
+      --bg-light:#ffffff;
+      --fg-light:#000000;
+      --panel-light:#f9f9f9;
+      --border-light:#dddddd;
+
+      /* OS dark (for general prefers-color-scheme usage) */
+      --bg-dark:#000;
+      --fg-dark:#fff;
+      --panel-dark:rgba(255,255,255,.06);
+      --border-dark:rgba(255,255,255,.2);
+
+      /* Left column solid dark */
+      --left-page:#0b0f16;     /* big column background */
+      --left-panel:#111827;    /* card background */
+      --left-border:#243142;   /* card border */
+      --left-fg:#e8edf5;       /* text on left */
+      --left-muted:#c6d0df;
+    }
+    *{ box-sizing:border-box }
+
+    body{
+      margin:0;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg-light);
+      color:var(--fg-light);
+      /* whole document scrolls naturally */
+    }
+    @media (prefers-color-scheme: dark){
+      body{ background:var(--bg-dark); color:var(--fg-dark); }
+    }
+
+    /* PROMPT (full width) — scrolls with page (NOT sticky) */
+    .prompt{
+      max-width:1200px;
+      margin:0 auto;
+      padding:20px 20px 8px;
+    }
+    .prompt .badge{ font-weight:600; }
+    .prompt .box{
+      margin-top:.75rem;
+      border-radius:var(--radius);
+      padding:16px;
+      border:1px solid var(--border-light);
+      background:var(--panel-light);
+      white-space:pre-wrap;
+      line-height:1.5;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+    @media (prefers-color-scheme: dark){
+      .prompt .box{
+        border-color:var(--border-dark);
+        background:var(--panel-dark);
+      }
+    }
+
+    /* Two-column area — give the WHOLE LEFT SIDE a dark page background using a gradient */
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:16px 16px 0;
+      background:
+        linear-gradient(90deg, var(--left-page) 0 50%, transparent 50% 100%);
+      border-radius:16px;
+    }
+
+    .heading {
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+    .heading-icon {
+      width:128px;
+      height:128px;
+      object-fit:contain;
+    }
+    .heading h2 {
+      margin:0;
+      font-size:1.8rem;
+      font-weight:600;
+    }
+
+        
+    .legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin: 6px 0 12px;
+      align-items: start; /* prevents vertical squeezing */
+    }
+    
+    .legend-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .legend-col.right {
+      justify-content: flex-end;  /* keep layout aligned but still stacked */
+      flex-direction: column;     /* override old row-reverse */
+    }
+
+    
+    .legend-col.left {
+      justify-content: flex-start;
+    }
+    
+
+        
+    .legend-img {
+      max-width: 400px;    /* control max size, scales with column */
+      width: 200%;         /* let it expand inside the cell */
+      height: auto;        /* keep aspect ratio */
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
+      margin: 16px;        /* space all around image */
+      margin-bottom: 12px; /* extra space between image and title */
+    }
+
+
+    
+    .legend-title {
+      font-size: .95rem;
+      font-weight: 600;
+      opacity: .95;
+    }
+    
+    .legend-col.left .legend-title {
+      color: var(--left-fg);
+    }
+
+
+
+
+    .rows{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:var(--gap);
+      align-items:start;
+    }
+
+    .cell{
+      border-radius:var(--radius);
+      padding:14px 16px;
+      border:1px solid var(--border-light);
+      background:var(--panel-light);
+      min-height:56px;
+      color:inherit;
+    }
+    @media (prefers-color-scheme: dark){
+      .cell{ border-color:var(--border-dark); background:var(--panel-dark); }
+    }
+
+    /* Force dark cards on left column */
+    .left-dark{
+      background:var(--left-panel) !important;
+      border-color:var(--left-border) !important;
+      color:var(--left-fg) !important;
+    }
+    .left-dark .pill,
+    .left-dark .version-chip{ border-color:var(--left-border) !important; }
+    .left-dark .muted{ color:var(--left-muted); opacity:1; }
+
+    /* As a fallback, make all odd cells (left column) dark even if class missing */
+    .rows > .cell:nth-child(odd){
+      background:var(--left-panel);
+      border-color:var(--left-border);
+      color:var(--left-fg);
+    }
+    .rows > .cell:nth-child(odd) .pill,
+    .rows > .cell:nth-child(odd) .version-chip{ border-color:var(--left-border); }
+    .rows > .cell:nth-child(odd) .muted{ color:var(--left-muted); opacity:1; }
+
+    .badge{
+      display:inline-flex; gap:8px; align-items:center;
+      font-weight:600; font-size:.95rem; margin-bottom:.35rem;
+    }
+    .pill{
+      display:inline-block; font-size:.78rem; padding:2px 8px; border-radius:999px;
+      border:1px solid var(--border-light); background:transparent;
+    }
+    @media (prefers-color-scheme: dark){
+      .pill{ border-color:var(--border-dark); }
+    }
+    .title{ font-weight:600; margin:.1rem 0 .4rem; font-size:1.05rem; }
+    ul{ margin:.4rem 0 .2rem 1.05rem; }
+    .muted{ opacity:.9; font-size:.92rem; }
+
+    .foot{
+      text-align:center; font-size:.85rem; opacity:.7; margin:24px 0 0;
+      padding-bottom:6px;
+      color:var(--left-fg);
+    }
+
+    .version-chip{
+      font-size:.75rem; letter-spacing:.2px;
+      padding:2px 8px; border-radius:999px; border:1px dashed var(--border-light);
+      display:inline-block; margin-right:6px;
+    }
+    @media (prefers-color-scheme: dark){
+      .version-chip{ border-color:var(--border-dark); }
+    }
+
+    /* References section (before final table) */
+    .refs{
+      max-width:1200px; margin:18px auto 0; padding:0 16px;
+    }
+    .refs h2{ margin:8px 0 8px; font-size:1.15rem; }
+    .refs-grid{
+      display:grid; grid-template-columns:1fr 1fr; gap:var(--gap);
+    }
+    .ref-col{
+      border-radius:var(--radius);
+      border:1px solid var(--border-light);
+      background:var(--panel-light);
+      padding:14px 16px;
+    }
+    .ref-col.left{
+      background:var(--left-panel);
+      border-color:var(--left-border);
+      color:var(--left-fg);
+    }
+    .ref-cat{ font-weight:600; margin:.25rem 0 .3rem; }
+    .refs ul{ margin:.2rem 0 .8rem 1.05rem; }
+    .refs a{ text-decoration:none; }
+    .ref-col.left a{ color:#cfe2ff; }
+    .ref-col.right a{ color:#0645ad; }
+
+    /* Quick Reference Table at the very END (full width) */
+    .qrt-wrap{
+      max-width:1200px; margin:16px auto 24px; padding:0 16px;
+    }
+    .qrt{
+      width:100%;
+      border-collapse:separate; border-spacing:0;
+      overflow:hidden; border-radius:12px;
+      border:1px solid var(--border-light);
+      background:var(--panel-light);
+    }
+    .qrt th,.qrt td{
+      padding:10px 12px; vertical-align:top; text-align:left;
+      border-bottom:1px solid var(--border-light);
+    }
+    .qrt th{ font-weight:600; }
+    .qrt tr:last-child td{ border-bottom:none; }
+    @media (prefers-color-scheme: dark){
+      .qrt{ border-color:var(--border-dark); background:var(--panel-dark); }
+      .qrt th,.qrt td{ border-bottom:1px solid var(--border-dark); }
+    }
+
+    /* Responsive */
+    @media (max-width:820px){
+      .container{ background:none; } /* when stacked, no half-page split */
+      .legend{ grid-template-columns:1fr; }
+      .rows{ grid-template-columns:1fr; }
+      .refs-grid{ grid-template-columns:1fr; }
+      .foot{ color:inherit; }
+    }
+  </style>
+</head>
+<body>
+<div class="prompt heading">
+  <img src="..\Icon_ProgLanguage__256x256_CSharp.png" alt="C# Icon" class="heading-icon">
+  <h2>C# Language Evolution 2002-2025</h2>
+</div>
+  <!-- PROMPT (scrolls with page) -->
+  <div class="prompt">
+    <div class="badge">PROMPT</div>
+    <div class="box" id="promptBox">
+starting with this exact reference guide
+
+Can you list all the upgrades in the C# language C#1 to C#14
+
+🚀 Quick Reference Table
+Version  Year & .NET  Notable Features
+C# 1.0 – 3.0  2002–2007  Language basics, generics, LINQ, lambda, extension methods
+C# 4.0 – 6.0  2010–2015  Dynamic, async/await, string interpolation, nameof, richer expressions
+C# 7.x – 9.0  2017–2020  Pattern matching, tuples, top-level statements, records
+C# 10 – 11   2021–2022  File-scoped namespaces, record structs, generic math, raw strings
+C# 12        2023 (.NET 8)  Primary constructors, collection expressions, inline arrays
+C# 13        2024 (.NET 9)  params collections, new Lock type, partial props/indexers
+C# 14        2025 (.NET 10)  Extension members, null-conditional assignment, file-based apps
+    </div>
+  </div>
+
+  <!-- Two-column area (whole left side has dark page background) -->
+  <div class="container">
+    <div class="legend">
+      <div class="legend-col left">
+        <img src="..\OpenAI-GPT5-Thinking.png" id="leftLegendImg" class="legend-img" alt="Left column icon" />
+        <div class="legend-title">Open AI ChatGPT 5 Thinking Summary 25-Aug-2025</div>
+      </div>
+      
+      <div class="legend-col right">
+        <img src="..\ClaudeSonnet4.png" id="rightLegendImg" class="legend-img" alt="Right column icon" />
+        <div class="legend-title">Anthropic Claude Sonnet 4.0 Summary 25-Aug-2025</div>
+      </div>
+    </div>
+
+    <div class="rows" id="rows"><!-- paired cells inserted here --></div>
+
+    <div class="foot" id="footnote">Loading C# version data…</div>
+  </div>
+
+  <!-- References (from JSON) -->
+  <section class="refs" id="refsSection" hidden>
+    <h2>References</h2>
+    <div class="refs-grid">
+      <div class="ref-col left">
+        <div class="ref-cat">Left JSON</div>
+        <div id="refsLeft"></div>
+      </div>
+      <div class="ref-col right">
+        <div class="ref-cat">Right JSON</div>
+        <div id="refsRight"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Reference Table moved to the VERY END -->
+  <div class="qrt-wrap">
+    <table class="qrt" id="qrt" aria-label="Quick Reference Table">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Year &amp; .NET</th>
+          <th>Notable Features</th>
+        </tr>
+      </thead>
+      <tbody><!-- filled dynamically --></tbody>
+    </table>
+  </div>
+
+<script>
+(async function(){
+  // Tiny inline SVGs so images always show; replace srcs below if you have your own PNG/SVG files.
+
+
+  // Helper: try a sequence of URLs until one works
+  async function fetchFirst(urls){
+    for(const u of urls){
+      try{
+        const r = await fetch(u, {cache:'no-cache'});
+        if(!r.ok) throw new Error(String(r.status));
+        return await r.json();
+      }catch(e){}
+    }
+    throw new Error('All sources failed: ' + urls.join(', '));
+  }
+
+  // Local filenames (place HTML beside these files)
+  const LEFT_PATHS  = ['Langauge.Evolution.CSharp.Left.json'];
+  const RIGHT_PATHS = ['Langauge.Evolution.CSharp.Right.json'];
+
+  // Load JSON
+  let leftRaw, rightRaw;
+  try{
+    leftRaw  = await fetchFirst(LEFT_PATHS);
+    rightRaw = await fetchFirst(RIGHT_PATHS);
+  }catch(err){
+    document.getElementById('footnote').textContent =
+      'Could not load JSON files. Ensure they are next to this HTML (exact names).';
+    console.error(err);
+    return;
+  }
+
+  // Extract shapes we need
+  const leftVersions = (leftRaw.aiEngine1 && Array.isArray(leftRaw.aiEngine1.versions))
+    ? leftRaw.aiEngine1.versions : [];
+  const rightHistory = (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.detailedHistory))
+    ? rightRaw.aiEngine2.detailedHistory : [];
+
+  // Quick Reference Table rows (now rendered at END)
+  const quickRef =
+    (leftRaw.aiEngine2 && Array.isArray(leftRaw.aiEngine2.quickReferenceTable) ? leftRaw.aiEngine2.quickReferenceTable : null) ||
+    (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.quickReferenceTable) ? rightRaw.aiEngine2.quickReferenceTable : null) ||
+    [];
+
+  const qrtBody = document.querySelector('#qrt tbody');
+  if(quickRef.length){
+    quickRef.forEach(r=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${r.version}</td>
+        <td>${r.yearAndDotNet || ''}</td>
+        <td>${r.notableFeatures || ''}</td>`;
+      qrtBody.appendChild(tr);
+    });
+  }else{
+    qrtBody.innerHTML = '<tr><td colspan="3" class="muted">No quick reference data found in JSON.</td></tr>';
+  }
+
+  // Index right-hand history by version
+  const rightByVersion = new Map();
+  rightHistory.forEach(item => { if(item && item.version) rightByVersion.set(String(item.version), item); });
+
+  // sort helper
+  function versionKey(v){
+    const parts = String(v).split('.');
+    const major = (parts[0]||'0').padStart(2,'0');
+    const minor = (parts[1]||'0').padStart(2,'0');
+    return `${major}.${minor}`;
+  }
+
+  const rows = document.getElementById('rows');
+  function makeUl(list){
+    const ul = document.createElement('ul');
+    list.forEach(x => { const li = document.createElement('li'); li.textContent = x; ul.appendChild(li); });
+    return ul;
+  }
+
+  const sortedLeft = [...leftVersions].sort((a,b)=>{
+    const ax = (a.version === '7.x') ? '07.99' : versionKey(a.version || '');
+    const bx = (b.version === '7.x') ? '07.99' : versionKey(b.version || '');
+    return ax.localeCompare(bx, undefined, {numeric:true});
+  });
+
+  let total = 0;
+  sortedLeft.forEach(lv => {
+    const vStr = String(lv.version);
+
+    // LEFT cell (dark)
+    const cellL = document.createElement('div');
+    cellL.className = 'cell left-dark';
+
+    if(vStr === '7.x'){
+      cellL.innerHTML = `
+        <div class="badge">
+          <span class="version-chip">C# 7.x</span>
+          <span class="pill">${lv.yearRange || '2017–2018'}</span>
+        </div>
+        <div class="title">Multiple subversions with progressive enhancements</div>
+        <div class="muted">${lv.description || ''}</div>`;
+      if(Array.isArray(lv.subversions)){
+        const merged = document.createElement('ul');
+        lv.subversions.forEach(sv=>{
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${sv.version}:</strong> ${(sv.features||[]).join(', ')}`;
+          merged.appendChild(li);
+        });
+        cellL.appendChild(merged);
+      }
+    } else {
+      let leftHead = `
+        <div class="badge">
+          <span class="version-chip">C# ${lv.version}</span>
+          ${lv.year ? `<span class="pill">${lv.year}</span>` : ''}
+        </div>`;
+      if(lv.description){ leftHead += `<div class="title">${lv.description}</div>`; }
+      cellL.innerHTML = leftHead;
+      if(Array.isArray(lv.features) && lv.features.length){
+        cellL.appendChild(makeUl(lv.features));
+      }
+    }
+
+    // RIGHT cell (light)
+    const cellR = document.createElement('div');
+    cellR.className = 'cell';
+    const rh = rightByVersion.get(vStr === '7.x' ? '7.0' : String(lv.version));
+    const dotnet = rh && rh.dotNetVersion ? rh.dotNetVersion : '';
+    const theme  = rh && rh.theme ? rh.theme : (vStr === '7.x' ? 'C# 7.0 → 7.3' : 'Details');
+
+    cellR.innerHTML = `
+      <div class="badge">
+        <span class="version-chip">C# ${vStr}</span>
+        ${dotnet ? `<span class="pill">${dotnet}</span>` : ''}
+        ${theme  ? `<span class="pill">${theme}</span>`   : ''}
+      </div>
+      <div class="title">${theme}</div>`;
+
+    if(vStr === '7.x'){
+      const rightList = document.createElement('ul');
+      ['7.0','7.1','7.2','7.3'].forEach(v=>{
+        const rhi = rightByVersion.get(v);
+        if(rhi){
+          const li = document.createElement('li');
+          const dn = rhi.dotNetVersion ? ` — <em>${rhi.dotNetVersion}</em>` : '';
+          const th = rhi.theme ? ` — ${rhi.theme}` : '';
+          li.innerHTML = `<strong>${v}</strong>${dn}${th}`;
+          if(Array.isArray(rhi.features) && rhi.features.length){
+            const inner = document.createElement('ul');
+            rhi.features.forEach(f=>{ const li2=document.createElement('li'); li2.textContent=f; inner.appendChild(li2); });
+            li.appendChild(inner);
+          }
+          rightList.appendChild(li);
+        }
+      });
+      if(rightList.children.length){ cellR.appendChild(rightList); }
+    } else {
+      if(rh && Array.isArray(rh.features) && rh.features.length){
+        cellR.appendChild(makeUl(rh.features));
+      }else{
+        const p = document.createElement('div'); p.className='muted';
+        p.textContent = 'No feature list available for this version in the right JSON.';
+        cellR.appendChild(p);
+      }
+    }
+
+    rows.appendChild(cellL);
+    rows.appendChild(cellR);
+    total++;
+  });
+
+  document.getElementById('footnote').textContent =
+    ` `;
+
+  /* ---------- References (before final table) ---------- */
+  function buildRefs(container, refs){
+    if(!Array.isArray(refs) || refs.length===0){
+      container.innerHTML = '<div class="muted">No references found.</div>';
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    refs.forEach(cat=>{
+      const title = document.createElement('div');
+      title.className = 'ref-cat';
+      title.textContent = cat.category || 'Category';
+      frag.appendChild(title);
+      const ul = document.createElement('ul');
+      (cat.links||[]).forEach(l=>{
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = l.url; a.target = '_blank'; a.rel='noopener';
+        a.textContent = l.title || l.url;
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      frag.appendChild(ul);
+    });
+    container.appendChild(frag);
+  }
+
+  const refsLeft  = leftRaw.references || (leftRaw.aiEngine3 && leftRaw.aiEngine3.references) || [];
+  const refsRight = rightRaw.references || (rightRaw.aiEngine3 && rightRaw.aiEngine3.references) || [];
+
+  buildRefs(document.getElementById('refsLeft'),  refsLeft);
+  buildRefs(document.getElementById('refsRight'), refsRight);
+
+  // Show the section if any side has references
+  if ((refsLeft && refsLeft.length) || (refsRight && refsRight.length)){
+    document.getElementById('refsSection').hidden = false;
+  }
+})();
+</script>
+
+</body>
+</html>
+
