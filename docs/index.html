@@ -94,40 +94,46 @@
       font-weight:600;
     }
 
-    
+        
     .legend {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: var(--gap);
       margin: 6px 0 12px;
       align-items: center;
     }
     
+    .legend-col {
+      display: flex;
+      align-items: center;
+    }
+    
     .legend-col.left {
-      text-align: left;
+      justify-content: flex-start;
     }
     
     .legend-col.right {
-      text-align: right;
+      justify-content: flex-end;
+      flex-direction: row-reverse; /* flip order: text then icon */
     }
     
     .legend-img {
-      display: inline-block;
-      vertical-align: middle;
-      margin: 0 8px 0 0;  /* space between image and text */
-      width: 64px;        /* or 128px if you want bigger */
+      width: 64px;
       height: 64px;
       object-fit: contain;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
+      margin: 0 8px;
     }
     
     .legend-title {
-      display: inline-block;
-      vertical-align: middle;
       font-size: .95rem;
       font-weight: 600;
       opacity: .95;
     }
+    
+    .legend-col.left .legend-title {
+      color: var(--left-fg);
+    }
+
 
 
 
