@@ -38,7 +38,6 @@
       font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:var(--bg-light);
       color:var(--fg-light);
-      /* whole document scrolls naturally */
     }
     @media (prefers-color-scheme: dark){
       body{ background:var(--bg-dark); color:var(--fg-dark); }
@@ -94,56 +93,39 @@
       font-weight:600;
     }
 
-        
     .legend {
       display: grid;
       grid-template-columns: 1fr 1fr;
       margin: 6px 0 12px;
-      align-items: start; /* prevents vertical squeezing */
+      align-items: start;
     }
-    
     .legend-col {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
-    
     .legend-col.right {
-      justify-content: flex-end;  /* keep layout aligned but still stacked */
-      flex-direction: column;     /* override old row-reverse */
+      justify-content: flex-end;
+      flex-direction: column;
     }
-
-    
     .legend-col.left {
       justify-content: flex-start;
     }
-    
-
-        
     .legend-img {
-      max-width: 400px;    /* control max size, scales with column */
-      width: 200%;         /* let it expand inside the cell */
-      height: auto;        /* keep aspect ratio */
+      max-width: 400px;
+      width: 200%;
+      height: auto;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
-      margin: 16px;        /* space all around image */
-      margin-bottom: 12px; /* extra space between image and title */
+      margin: 16px;
+      margin-bottom: 12px;
     }
-
-
-    
     .legend-title {
       font-size: .95rem;
       font-weight: 600;
       opacity: .95;
     }
-    
-    .legend-col.left .legend-title {
-      color: var(--left-fg);
-    }
-
-
-
+    .legend-col.left .legend-title { color: var(--left-fg); }
 
     .rows{
       display:grid;
@@ -272,10 +254,11 @@
   </style>
 </head>
 <body>
-<div class="prompt heading">
-  <img src="..\Icon_ProgLanguage__256x256_CSharp.png" alt="C# Icon" class="heading-icon">
-  <h2><h2>Discriminated Unions in C# – Technical Report 2025</h2></h2>
-</div>
+  <div class="prompt heading">
+    <img src="..\\Icon_ProgLanguage__256x256_CSharp.png" alt="C# Icon" class="heading-icon">
+    <h2>Discriminated Unions in C# – Technical Report 2025</h2>
+  </div>
+
   <!-- PROMPT (scrolls with page) -->
   <div class="prompt">
     <div class="badge">PROMPT</div>
@@ -300,12 +283,11 @@ Write in a professional but accessible style for senior developers. Include head
   <div class="container">
     <div class="legend">
       <div class="legend-col left">
-        <img src="..\OpenAI-GPT5-Thinking.png" id="leftLegendImg" class="legend-img" alt="Left column icon" />
+        <img src="..\\OpenAI-GPT5-Thinking.png" id="leftLegendImg" class="legend-img" alt="Left column icon" />
         <div class="legend-title">Open AI ChatGPT 5 Thinking Summary 25-Aug-2025</div>
       </div>
-      
       <div class="legend-col right">
-        <img src="..\ClaudeSonnet4.png" id="rightLegendImg" class="legend-img" alt="Right column icon" />
+        <img src="..\\ClaudeSonnet4.png" id="rightLegendImg" class="legend-img" alt="Right column icon" />
         <div class="legend-title">Anthropic Claude Sonnet 4.0 Summary 25-Aug-2025</div>
       </div>
     </div>
@@ -346,9 +328,6 @@ Write in a professional but accessible style for senior developers. Include head
 
 <script>
 (async function(){
-  // Tiny inline SVGs so images always show; replace srcs below if you have your own PNG/SVG files.
-
-
   // Helper: try a sequence of URLs until one works
   async function fetchFirst(urls){
     for(const u of urls){
@@ -361,9 +340,9 @@ Write in a professional but accessible style for senior developers. Include head
     throw new Error('All sources failed: ' + urls.join(', '));
   }
 
-  // Local filenames (place HTML beside these files)
-  const LEFT_PATHS  = ['Langauge.Evolution.CSharp.Left.json'];
-  const RIGHT_PATHS = ['Langauge.Evolution.CSharp.Right.json'];
+  // Accept both spellings in filenames (place HTML beside these JSON files)
+  const LEFT_PATHS  = ['Language.Evolution.CSharp.Left.json','Langauge.Evolution.CSharp.Left.json'];
+  const RIGHT_PATHS = ['Language.Evolution.CSharp.Right.json','Langauge.Evolution.CSharp.Right.json'];
 
   // Load JSON
   let leftRaw, rightRaw;
@@ -378,12 +357,17 @@ Write in a professional but accessible style for senior developers. Include head
   }
 
   // Extract shapes we need
-  const leftVersions = (leftRaw.aiEngine1 && Array.isArray(leftRaw.aiEngine1.versions))
-    ? leftRaw.aiEngine1.versions : [];
-  const rightHistory = (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.versions))
-    ? rightRaw.aiEngine2.versions : [];
+  const leftVersions =
+    (leftRaw.aiEngine1 && Array.isArray(leftRaw.aiEngine1.versions) ? leftRaw.aiEngine1.versions : []) ||
+    [];
 
-  // Quick Reference Table rows (now rendered at END)
+  // Be defensive about the right side key (aiEngine2 preferred, fallback to aiEngine1)
+  const rightHistory =
+    (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.versions) && rightRaw.aiEngine2.versions) ||
+    (rightRaw.aiEngine1 && Array.isArray(rightRaw.aiEngine1.versions) && rightRaw.aiEngine1.versions) ||
+    [];
+
+  // Quick Reference Table rows (rendered at END)
   const quickRef =
     (leftRaw.aiEngine2 && Array.isArray(leftRaw.aiEngine2.quickReferenceTable) ? leftRaw.aiEngine2.quickReferenceTable : null) ||
     (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.quickReferenceTable) ? rightRaw.aiEngine2.quickReferenceTable : null) ||
@@ -428,7 +412,6 @@ Write in a professional but accessible style for senior developers. Include head
     return ax.localeCompare(bx, undefined, {numeric:true});
   });
 
-  let total = 0;
   sortedLeft.forEach(lv => {
     const vStr = String(lv.version);
 
@@ -436,7 +419,7 @@ Write in a professional but accessible style for senior developers. Include head
     const cellL = document.createElement('div');
     cellL.className = 'cell left-dark';
     
-    // Support new "article" JSON property
+    // Support "article" property or legacy fields
     if (lv.article) {
       cellL.innerHTML = `
         <div class="badge">
@@ -446,7 +429,6 @@ Write in a professional but accessible style for senior developers. Include head
         <div class="muted">${lv.article}</div>
       `;
     } else {
-      // fallback for old JSON
       let leftHead = `
         <div class="badge">
           <span class="version-chip">${lv.version}</span>
@@ -460,27 +442,37 @@ Write in a professional but accessible style for senior developers. Include head
       }
     }
 
-
-    // RIGHT cell (light)
+    // RIGHT cell (light) — supports article OR features
     const cellR = document.createElement('div');
     cellR.className = 'cell';
     const rh = rightByVersion.get(vStr === '7.x' ? '7.0' : String(lv.version));
+
     const dotnet = rh && rh.dotNetVersion ? rh.dotNetVersion : '';
     const theme  = rh && rh.theme ? rh.theme : (vStr === '7.x' ? 'C# 7.0 → 7.3' : 'Details');
+    const yearPill = rh && rh.year ? `<span class="pill">${rh.year}</span>` : '';
 
     cellR.innerHTML = `
       <div class="badge">
         <span class="version-chip">C# ${vStr}</span>
+        ${yearPill}
         ${dotnet ? `<span class="pill">${dotnet}</span>` : ''}
         ${theme  ? `<span class="pill">${theme}</span>`   : ''}
       </div>
-      <div class="title">${theme}</div>`;
+      <div class="title">${theme}</div>
+    `;
 
-    if(vStr === '7.x'){
+    if (rh && rh.article) {
+      const p = document.createElement('div');
+      p.className = 'muted';
+      p.textContent = rh.article;
+      cellR.appendChild(p);
+    } else if (rh && Array.isArray(rh.features) && rh.features.length) {
+      cellR.appendChild(makeUl(rh.features));
+    } else if (vStr === '7.x') {
       const rightList = document.createElement('ul');
       ['7.0','7.1','7.2','7.3'].forEach(v=>{
         const rhi = rightByVersion.get(v);
-        if(rhi){
+        if (rhi) {
           const li = document.createElement('li');
           const dn = rhi.dotNetVersion ? ` — <em>${rhi.dotNetVersion}</em>` : '';
           const th = rhi.theme ? ` — ${rhi.theme}` : '';
@@ -493,24 +485,18 @@ Write in a professional but accessible style for senior developers. Include head
           rightList.appendChild(li);
         }
       });
-      if(rightList.children.length){ cellR.appendChild(rightList); }
+      if (rightList.children.length) cellR.appendChild(rightList);
     } else {
-      if(rh && Array.isArray(rh.features) && rh.features.length){
-        cellR.appendChild(makeUl(rh.features));
-      }else{
-        const p = document.createElement('div'); p.className='muted';
-        p.textContent = 'No feature list available for this version in the right JSON.';
-        cellR.appendChild(p);
-      }
+      const p = document.createElement('div'); p.className='muted';
+      p.textContent = 'No content found for this version in the right JSON.';
+      cellR.appendChild(p);
     }
 
     rows.appendChild(cellL);
     rows.appendChild(cellR);
-    total++;
   });
 
-  document.getElementById('footnote').textContent =
-    ` `;
+  document.getElementById('footnote').textContent = '';
 
   /* ---------- References (before final table) ---------- */
   function buildRefs(container, refs){
@@ -553,4 +539,3 @@ Write in a professional but accessible style for senior developers. Include head
 
 </body>
 </html>
-
