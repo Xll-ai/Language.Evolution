@@ -2,88 +2,54 @@
   "aiEngine1": {
     "versions": [
       {
-        "version": "Report-Intro",
+        "version": "Introduction & Background",
         "year": "2025",
-        "description": "Discriminated unions are a powerful functional programming construct already present in languages like F# and Rust. They allow a type to represent one of several named cases, each potentially carrying its own data. This two-page report surveys what they are, why they matter for C#, and the prospects for inclusion in C# 14 or later.",
-        "features": [
-          "Definition and context of discriminated unions",
-          "Examples from F# and Rust enums",
-          "Why developers want them in C#"
-        ]
+        "article": "Discriminated unions—also known as sum types or tagged unions—are a staple of functional languages like F#, Haskell, and Rust. They let you define a type that can be one of many named alternatives, each possibly carrying its own data. This enables clearer domain models and compiler-enforced exhaustiveness. In C#, developers have long emulated these patterns with inheritance, enums, records, and libraries, but native support is still not part of the language."
       },
       {
-        "version": "Current Approaches",
+        "version": "2025 Status Check: C# 14 / .NET 10 / VS 2026",
         "year": "2025",
-        "description": "C# does not yet have built-in discriminated unions. Developers simulate them with records, inheritance hierarchies, pattern matching, or libraries like OneOf<T1,T2>. Azure Durable Functions even provides union-like constructs for orchestrating workflows. While workable, these approaches are verbose and lack compile-time exhaustiveness checking.",
-        "features": [
-          "Records with pattern matching",
-          "Class hierarchies with virtual dispatch",
-          "Third-party libraries like OneOf",
-          "Azure Durable Functions’ activity unions"
-        ]
+        "article": "Visual Studio 2026 Insiders released with first-class support for .NET 10 and C# 14. C# 14 focuses on pragmatic additions such as extension members (aka “extension everything”), implicit span conversions, and null-conditional assignment, plus assorted quality-of-life changes. Discriminated unions are not in C# 14; they remain under active design and discussion."
       },
       {
-        "version": "Proposals & Status",
+        "version": "Current Approximations in C#",
         "year": "2025",
-        "description": "The C# Language Design Meetings (LDM) have received multiple community proposals for discriminated unions. As of early 2025, no design has been officially accepted for C# 14 (.NET 10). They remain in the \"considered\" bucket rather than the language roadmap.",
-        "features": [
-          "Discussions in GitHub proposals and LDM notes",
-          "Overlap with existing features like records and pattern matching",
-          "No inclusion in the official C# 14 preview releases yet"
-        ]
+        "article": "Because native discriminated unions are not yet available in C#, developers rely on libraries and patterns. The OneOf<T1, T2, …> library offers union-like types with Match/Switch helpers and compile-time guidance. Other approaches include sealed record hierarchies with pattern matching, or bespoke result types (e.g., Result<TSuccess, TError>). These work well but can be verbose and don’t provide built-in exhaustiveness checks."
       },
       {
-        "version": "Benefits",
+        "version": "State of Proposals and Design",
         "year": "2025",
-        "description": "Adding discriminated unions would improve domain modeling, ensuring developers can encode finite alternatives in a type-safe way. They make API contracts clearer, reduce boilerplate, and enable exhaustive switch checking.",
-        "features": [
-          "Type-safety: all cases must be handled",
-          "Expressive domain models",
-          "Cleaner switch expressions",
-          "Better interop with functional paradigms"
-        ]
+        "article": "There’s an ongoing proposal in the dotnet/csharplang repo to introduce union/type-union capabilities. Recent design notes suggest a phased approach (e.g., union classes first) with continuing discussion on syntax, semantics, and tooling. Despite interest, no union feature shipped in C# 14; consideration appears to be for a future release."
       },
       {
-        "version": "Challenges",
+        "version": "Benefits of Native Support",
         "year": "2025",
-        "description": "Introducing discriminated unions to C# is non-trivial. Syntax must feel natural alongside records and enums. Runtime representation and compatibility with existing reflection, serialization, and tooling are also concerns.",
-        "features": [
-          "Syntax design consistent with existing types",
-          "Interop with .NET runtime and tooling",
-          "Overlap with records, pattern matching, and inheritance",
-          "Backward compatibility considerations"
-        ]
+        "article": "Native unions would improve domain modeling and safety. APIs could return explicit alternatives (e.g., Result.Success or Result.Error) with compiler-verified handling, reducing runtime errors and clarifying control flow across large codebases."
       },
       {
-        "version": "Outlook & Probability",
+        "version": "Design Challenges",
         "year": "2025",
-        "description": "Most experts view discriminated unions as likely for C# eventually, but probably not in 14. The probability for 2025 inclusion is low (~15%). For later versions (C# 15+), probability is much higher (~50%+).",
-        "features": [
-          "C# 14: ~10–20% likelihood",
-          "C# 15 or later: ~40–50% likelihood",
-          "Strong community interest and alignment with long-term goals"
-        ]
+        "article": "Key challenges include choosing a syntax that complements records/enums/classes, ensuring good performance (tagging, allocations, codegen), and integrating with runtime features like reflection, serialization, and debugging. Tooling and IDE experience must feel natural alongside pattern matching."
+      },
+      {
+        "version": "Use Cases",
+        "year": "2025",
+        "article": "Strong candidates include API result types, command processing, workflow/state machines, parsers, and configuration schemas—areas where closed sets of alternatives and exhaustive handling reduce edge-case bugs and improve readability."
+      },
+      {
+        "version": "Probability Outlook",
+        "year": "2025",
+        "article": "C# 14 (with .NET 10) did not include unions. Based on public discussion and the phased design direction, the odds look better for a post-C# 14 release (e.g., C# 15 or later). A cautious estimate: low likelihood for 2025 GA, moderate likelihood in the next major cycle if design complexities are resolved."
       },
       {
         "version": "Approval Process",
         "year": "2025",
-        "description": "Any new feature must be approved by the C# Language Design Meeting (LDM), consisting of Microsoft language designers and compiler engineers. They evaluate proposals based on consistency, complexity, and benefit. Community feedback via GitHub issues and proposals informs but does not decide final approval.",
-        "features": [
-          "Initial proposals via GitHub (dotnet/csharplang)",
-          "Discussion in LDM",
-          "Prototype and preview releases",
-          "Final approval for release roadmap"
-        ]
+        "article": "New C# features advance via proposals in dotnet/csharplang and review in Language Design Meetings. After sufficient consensus, features progress through prototypes and previews before GA, aligned with .NET release planning and IDE/tooling readiness."
       },
       {
         "version": "Conclusion",
         "year": "2025",
-        "description": "Discriminated unions remain one of the most requested features for modern C#. They promise to simplify modeling and align C# more closely with functional languages in the .NET ecosystem. While unlikely for C# 14, their eventual inclusion seems probable.",
-        "features": [
-          "No official support in C# 14",
-          "High demand from developers",
-          "Likely candidate for future versions"
-        ]
+        "article": "Discriminated unions remain a highly requested feature that would align C# with functional strengths seen in F# and others. C# 14 shipped other meaningful improvements but not unions. Continued design activity keeps unions credible for a future release, pending final decisions on syntax, ergonomics, performance, and tooling."
       }
     ]
   }
