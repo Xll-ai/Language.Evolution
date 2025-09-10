@@ -380,8 +380,8 @@ Write in a professional but accessible style for senior developers. Include head
   // Extract shapes we need
   const leftVersions = (leftRaw.aiEngine1 && Array.isArray(leftRaw.aiEngine1.versions))
     ? leftRaw.aiEngine1.versions : [];
-  const rightHistory = (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.detailedHistory))
-    ? rightRaw.aiEngine2.detailedHistory : [];
+  const rightHistory = (rightRaw.aiEngine2 && Array.isArray(rightRaw.aiEngine2.versions))
+    ? rightRaw.aiEngine2.versions : [];
 
   // Quick Reference Table rows (now rendered at END)
   const quickRef =
